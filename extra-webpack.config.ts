@@ -1,8 +1,11 @@
-const webpack = require('webpack');
-require('dotenv').config();
+import { CustomWebpackBrowserSchema } from '@angular-builders/custom-webpack';
+import * as webpack from 'webpack';
+import * as dotenv from 'dotenv';
 
-module.exports = {
-  plugins: [
+dotenv.config();
+
+export default (config: webpack.Configuration, options: CustomWebpackBrowserSchema) => {
+  config.plugins.push(
     new webpack.DefinePlugin({
       'process.env': {
         API_KEY: JSON.stringify(process.env.API_KEY),
@@ -15,5 +18,6 @@ module.exports = {
         MEASUREMENT_ID: JSON.stringify(process.env.MEASUREMENT_ID)
       }
     })
-  ]
-};
+  );
+  return config;
+}
