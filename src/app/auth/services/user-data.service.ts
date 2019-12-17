@@ -1,9 +1,9 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { UserData } from '../user';
-import { environment } from '../../../environments/environment';
-import { from, Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
+import {Injectable, OnDestroy} from '@angular/core';
+import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
+import {Role, UserData} from '../user';
+import {environment} from '../../../environments/environment';
+import {from, Observable, Subscription} from 'rxjs';
+import {Store} from '@ngrx/store';
 import * as fromRoot from '../../reducers';
 import * as firebase from 'firebase/app';
 
@@ -43,7 +43,8 @@ export class UserDataService implements OnDestroy {
       lastName: name[1],
       email: this.currentEmail,
       lastLogin: date,
-      registrationDate: date
+      registrationDate: date,
+      role: Role.USER
     };
     return from(
       this.userDataCollection.doc<UserData>(uid)

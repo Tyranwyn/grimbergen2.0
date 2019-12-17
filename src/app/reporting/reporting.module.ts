@@ -25,6 +25,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {DeleteWarningDialogModule} from "./common/delete-warning-dialog/delete-warning-dialog.module";
 import {DeleteWarningDialogComponent} from "./common/delete-warning-dialog/delete-warning-dialog.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {AdminGuard} from "./services/admin.guard";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     DeleteWarningDialogModule,
     MatAutocompleteModule,
   ],
-  providers: [AngularFireAuthGuard],
+  providers: [AngularFireAuthGuard, AdminGuard],
   entryComponents: [DeleteWarningDialogComponent]
 })
 export class ReportingModule {
