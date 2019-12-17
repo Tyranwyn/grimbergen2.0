@@ -16,4 +16,10 @@ export interface UserData {
   phone?: string;
   registrationDate: firebase.firestore.Timestamp;
   lastLogin: firebase.firestore.Timestamp;
+  role: Role;
+}
+
+export enum Role {
+  USER = 'USER',
+  ADMIN = 'ADMIN'
 }

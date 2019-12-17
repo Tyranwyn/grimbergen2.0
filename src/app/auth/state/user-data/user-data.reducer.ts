@@ -1,13 +1,14 @@
-import { UserData } from '../../user';
+import {Role, UserData} from '../../user';
 import * as UserDataActions from './user-data.actions';
-import { Action, createReducer, on } from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 
 const defaultUserData: UserData = {
   firstName: null,
   lastName: null,
   email: null,
   registrationDate: null,
-  lastLogin: null
+  lastLogin: null,
+  role: Role.USER
 };
 
 const reducer = createReducer(

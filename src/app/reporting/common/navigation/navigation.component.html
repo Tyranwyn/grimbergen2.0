@@ -8,6 +8,7 @@
       <a mat-list-item routerLink="/" (click)="toggleDrawer()">Meld een probleem</a>
       <a mat-list-item routerLink="/profile" (click)="toggleDrawer()">Mijn profiel</a>
       <a mat-list-item routerLink="/reports" (click)="toggleDrawer()">Meldingen Overzicht</a>
+      <a mat-list-item *ngIf="(currentRole$ | async) === 'ADMIN'" routerLink="/admin" (click)="toggleDrawer()">Administrator</a>
       <mat-divider></mat-divider>
       <a mat-list-item (click)="logout()">Log uit</a>
     </mat-nav-list>

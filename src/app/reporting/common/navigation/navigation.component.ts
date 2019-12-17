@@ -7,6 +7,7 @@ import * as fromRoot from '../../../reducers';
 import * as UserActions from '../../../auth/state/user/user.actions';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material';
+import {Role} from "../../../auth/user";
 
 @Component({
   selector: 'app-navigation',
@@ -26,11 +27,13 @@ export class NavigationComponent {
       shareReplay()
     );
   isHandset: boolean;
+  currentRole$: Observable<Role>;
 
   constructor(private breakpointObserver: BreakpointObserver,
               private store: Store<fromRoot.State>,
               private router: Router) {
     this.isHandsetSubscription = this.isHandset$.subscribe(isHandset => this.isHandset = isHandset);
+    this.currentRole$ = store.select(fromRoot.getUserDataRole);
   }
 
   logout() {

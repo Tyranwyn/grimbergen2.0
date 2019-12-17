@@ -39,3 +39,4 @@ export const getUserDataEmail = createSelector(getUserDataSelector, userData => 
 export const getUserDataPhone = createSelector(getUserDataSelector, userData => userData.phone);
 export const getUserDataRegistrationDate = createSelector(getUserDataSelector, userData => userData.registrationDate);
 export const getUserDataLastLogin = createSelector(getUserDataSelector, userData => userData.lastLogin);
+export const getUserDataRole = createSelector(getUserDataSelector, userData => userData.role);
