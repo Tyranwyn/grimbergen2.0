@@ -2,7 +2,7 @@ const ftp = require("basic-ftp");
 require('dotenv').config();
 
 const host = process.env.FTP_HOST;
-const port = process.env.FTP_PORT;
+const port = process.env.FTP_PORT || 21;
 const user = process.env.FTP_USERNAME;
 const password = process.env.FTP_PASSWORD;
 const secure = false;
@@ -10,6 +10,7 @@ const override =  true;
 const localDir = './dist/grimbergen-app';
 const remoteDir = '/';
 
+console.log(localDir);
 if (!localDir) {
   throw new Error('Missing localDir.');
 }
