@@ -9,7 +9,7 @@ import {Category} from '../models/category';
 import {CategoryService} from '../services/category.service';
 import {ImageService} from '../services/image.service';
 import {ReportService} from '../services/report.service';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, take} from 'rxjs/operators';
 import {ReportInputDto} from '../models/report';
 import {MailService} from '../services/mail.service';
 import {environment} from '../../../environments/environment';
@@ -185,17 +185,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private reverseSearch(position: Position) {
-    this.subscriptions.push(this.nomatimService.reverse({
+    this.nomatimService.reverse({
       lat: position.coords.latitude,
       lon: position.coords.longitude,
       "accept-language": 'nl-BE',
       format: "json"
-    }).subscribe(result => {
+    }).pipe(take(1))
+      .subscribe(result => {
       let formattedAddress = this.formatAddress(result.address);
       this.locationAddress.setValue(formattedAddress);
       this.locationCoords.setValue({lat: result.lat, long: result.lon});
       this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`)
-    }));
+    });
   }
 
   get uid(): FormControl {
