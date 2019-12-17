@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {AngularFireModule} from '@angular/fire';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxAuthFirebaseUIModule} from 'ngx-auth-firebaseui';
-import {firebaseConfig} from '../firebase-config';
 import {ReportingModule} from './reporting/reporting.module';
 import {AuthModule} from './auth/auth.module';
 import {StoreModule} from '@ngrx/store';
@@ -28,8 +27,8 @@ import {CommonModule} from "@angular/common";
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    NgxAuthFirebaseUIModule.forRoot(firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig),
     AuthModule,
     ReportingModule,
     AppRoutingModule,

@@ -9,5 +9,7 @@ if (environment.production) {
   enableProdMode();
 }
 
+console.log(process.env.APP_ID);
+
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
