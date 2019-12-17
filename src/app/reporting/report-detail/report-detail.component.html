@@ -1,0 +1,23 @@
+<div style="margin: 2em">
+  <div *ngIf="report$ | async as report">
+    <h3>{{report.location.address}}</h3>
+    <div [style.background-image]="'url(' + report.picture +')'" class="image-preview"></div>
+
+    <p>Gerapporteerd op: {{report.dateSubmitted.toDate().toLocaleDateString()}}</p>
+    <p>Extra informatie: {{report.note}}</p>
+    <p>Plaatsbeschrijving: {{report.locationDescription}}</p>
+  </div>
+  <br>
+  <div>
+    <h4>Statusverloop:</h4>
+    <mat-chip-list class="mat-chip-list-stacked">
+      <mat-chip *ngFor="let statusUpdate of statusUpdates$ | async; let i = index;"
+                [color]="i === 0 ? 'accent' : undefined"
+                [matTooltip]="statusUpdate.note"
+                selected>
+        {{ (statusUpdate.status | async)?.name}} {{ statusUpdate.datumStatusChange.toDate().toLocaleDateString() }}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</div>
+

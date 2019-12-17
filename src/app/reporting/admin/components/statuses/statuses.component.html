@@ -1,0 +1,21 @@
+<div class="container">
+  <app-table-filter [tableDataSource]="_statuses"></app-table-filter>
+  <table mat-table
+         matSort
+         [dataSource]="_statuses">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ column === 'name' ? 'naam' : column === 'note' ? 'info' : column}}
+      </th>
+      <td mat-cell *matCellDef="let category" (click)="openDialog(types.UPDATE, category)"> {{category[column]}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let category; columns: columnsToDisplay;"
+        class="example-element-row">
+    </tr>
+  </table>
+  <button mat-fab color="primary" class="fixed-button" (click)="openDialog(types.CREATE)">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

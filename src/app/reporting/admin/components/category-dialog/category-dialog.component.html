@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>{{data.type === types.CREATE ? 'Nieuwe categorie' : 'Categorie updaten'}}</h1>
+<mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Naam" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Info" formControlName="note">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="{ type: data.type, resource: formGroup.getRawValue() }" [disabled]="formGroup.invalid">Opslaan</button>
+</mat-dialog-actions>

@@ -1,0 +1,39 @@
+<form [formGroup]="userDataForm" (ngSubmit)="updateUserData()">
+  <table class="full-width">
+    <tr>
+      <td>
+        <mat-form-field class="full-width">
+          <input [formControl]="firstName" matInput placeholder="Voornaam">
+          <mat-error *ngIf="firstName.hasError('required')">
+            Gelieve uw voornaam in te vullen
+          </mat-error>
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field class="full-width">
+          <input matInput [formControl]="lastName" placeholder="Achternaam">
+          <mat-error *ngIf="lastName.hasError('required')">
+            Gelieve uw achternaam in te vullen
+          </mat-error>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
+  <mat-form-field class="full-width" id="login-email">
+    <input matInput [value]="loginEmail$ | async" placeholder="Login Email" type="email" disabled readonly/>
+    <mat-hint>Dit email adres werd bepaald bij uw login. Het is niet aanpasbaar.</mat-hint>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput [formControl]="email" placeholder="Communicatie Email" type="email"/>
+    <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+      U moet een <strong>correct</strong> communicatie email adres invullen
+    </mat-error>
+    <mat-error *ngIf="email.hasError('required')">
+      Een email adres is <strong>verplicht</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput [formControl]="phone" placeholder="Telefoonnummer (optioneel)" maxlength="13"/>
+  </mat-form-field>
+  <button mat-flat-button [disabled]="userDataForm.invalid" color="primary" class="full-width">Opslaan</button>
+</form>

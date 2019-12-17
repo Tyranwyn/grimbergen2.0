@@ -1,0 +1,14 @@
+<div class="container">
+  <ng-template #chooseFile>
+    <label>
+      <input type="file" accept="image/*"/>
+      <span>Druk hier om een foto te nemen</span>
+    </label>
+  </ng-template>
+  <div  *ngIf="imagePreview; else chooseFile" class="image-preview" [style.border]="isValid ? '' : 'red 1px solid'" [style.background-image]="imagePreview">
+    <button mat-mini-fab color="warn" (click)="file = null; imagePreview = null;" type="button" id="deleteButton">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>
+<!--<app-progress [progress]="progress"></app-progress>-->

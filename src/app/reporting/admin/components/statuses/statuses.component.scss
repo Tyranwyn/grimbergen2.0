@@ -1,0 +1,18 @@
+.container {
+  padding: 0 1em 0 1em;
+}
+
+table {
+  width: 100%;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #777;
+  cursor: pointer;
+}
+
+.fixed-button {
+  position: fixed;
+  right: 2em;
+  bottom: 2em;
+}

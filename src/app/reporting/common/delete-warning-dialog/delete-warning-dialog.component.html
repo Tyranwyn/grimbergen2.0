@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Verwijderen</h1>
+<mat-dialog-content>
+  <p>Bent u zeker dat u het volgende wilt verwijderen?</p>
+  <p>{{data.name}}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="data.resource" color="warn">Verwijder</button>
+</mat-dialog-actions>

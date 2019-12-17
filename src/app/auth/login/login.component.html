@@ -1,0 +1,12 @@
+<ngx-auth-firebaseui-login [providers]="providers"
+                           (onCreateAccountRequested)="register()"
+                           (onSuccess)="onSuccess($event)"
+                           [resetPasswordEnabled]="false"
+                           titleText="GIMBERGEN 2.0"
+                           orLabelText="Of"
+                           dontHaveAnAccountText="Geen account?"
+                           createAccountButtonText="Account aanmaken"
+                           emailErrorRequiredText="U moet een email adres invullen"
+                           emailErrorPatternText="Gelieve een correct email adres in te vullen"
+                           passwordErrorRequiredText="U moet een paswoord invullen">
+</ngx-auth-firebaseui-login>

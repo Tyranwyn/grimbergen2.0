@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{data.type === types.CREATE ? 'Nieuwe status' : 'Status updaten'}}</h1>
+<mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <mat-form-field class="full-width">
+      <input matInput class="uppercase" (change)="idToUppercase()" placeholder="ID" formControlName="id">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Naam" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Info" formControlName="note"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="{ type: types.DELETE, resource: formGroup.getRawValue() }">Verwijder</button>
+  <button mat-button [mat-dialog-close]="{ type: data.type, resource: formGroup.getRawValue() }" [disabled]="formGroup.invalid">Opslaan</button>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+<div class="container">
+  <h1 mat-line>Meldingen Overzicht</h1>
+  <small [style.color]="'#999'">Druk op een melding om meer info te tonen.</small>
+</div>
+<mat-action-list>
+  <button mat-list-item *ngFor="let report of reports$ | async" [routerLink]="report.id">
+    {{report.location.address}} - {{report.dateSubmitted.toDate().toLocaleDateString()}} - {{(report.currentStatus | async)?.name}}
+    <mat-divider></mat-divider>
+  </button>
+</mat-action-list>

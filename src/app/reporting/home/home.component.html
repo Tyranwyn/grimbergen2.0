@@ -1,0 +1,76 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit(formDirective)" #formDirective>
+  <div class="row-flex">
+    <div>
+      <app-file-upload [formControl]="picture" [isValid]="picture.valid" [progress]=""></app-file-upload>
+    </div>
+    <div>
+      <table class="full-width">
+        <tr>
+          <td>
+            <mat-form-field class="full-width">
+              <input [formControl]="firstName" matInput placeholder="Voornaam">
+              <mat-error *ngIf="firstName.hasError('required')">
+                Gelieve uw voornaam in te vullen
+              </mat-error>
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="full-width">
+              <input matInput [formControl]="lastName" placeholder="Achternaam">
+              <mat-error *ngIf="lastName.hasError('required')">
+                Gelieve uw achternaam in te vullen
+              </mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <mat-form-field class="full-width">
+        <input matInput [formControl]="email" placeholder="Email" type="email"/>
+        <mat-error *ngIf="email.hasError('email') && !email.hasError('required')">
+          U moet een <strong>correct</strong> email adres invullen
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required')">
+          Een email adres is <strong>verplicht</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <input matInput
+               id="locationInput"
+               (keyup)="search($event)"
+               [formControl]="locationAddress"
+               placeholder="Plaats"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let result of results$ | async" [value]="formatAddress(result.address)" (onSelectionChange)="onLocationSelected(result)">
+            {{formatAddress(result.address)}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="locationAddress.hasError('pattern') && !locationAddress.hasError('required')">
+          Dit veld moet een adres in <strong>Groot-Grimbergen</strong> zijn
+        </mat-error>
+        <mat-error *ngIf="locationAddress.hasError('required')">
+          Een adres is <strong>verplicht</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <textarea matInput [formControl]="locationDescription" placeholder="Plaatsbeschrijving (optioneel)"></textarea>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Categorie</mat-label>
+        <select matNativeControl [formControl]="category">
+          <option value="" selected></option>
+          <option *ngFor="let category of $categories | async" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <mat-error *ngIf="category.hasError('required')">
+          Kies een categorie
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <textarea matInput [formControl]="note" placeholder="Extra informatie (optioneel)"></textarea>
+      </mat-form-field>
+    </div>
+    <button mat-flat-button [disabled]="formGroup.invalid" color="primary" class="full-width">Verzenden</button>
+  </div>
+</form>
