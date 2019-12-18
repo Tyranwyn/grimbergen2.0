@@ -1,16 +1,11 @@
-import {Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Status} from "../../../models/status";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Crud} from "../../models/crud.enum";
 import {DialogData} from "../../models/dialog-data.model";
-import {filter} from "rxjs/operators";
-import {
-  DeleteDialogWarningData,
-  DeleteWarningDialogComponent
-} from "../../../common/delete-warning-dialog/delete-warning-dialog.component";
+import {filter, take} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
-import {Subscription} from "rxjs";
 import {StatusDialogComponent} from "../status-dialog/status-dialog.component";
 import {WidthAware} from "../../../models/width-aware";
 
@@ -19,9 +14,7 @@ import {WidthAware} from "../../../models/width-aware";
   templateUrl: './statuses.component.html',
   styleUrls: ['./statuses.component.scss']
 })
-export class StatusesComponent extends WidthAware implements OnInit, OnDestroy {
-
-  private subscriptions: Subscription[] = [];
+export class StatusesComponent extends WidthAware implements OnInit {
 
   types = Crud;
 
@@ -54,9 +47,10 @@ export class StatusesComponent extends WidthAware implements OnInit, OnDestroy {
       data: {type, resource: status} as DialogData<Status>
     });
 
-    this.subscriptions.push(
-      dialogRef.afterClosed().pipe(filter(result => result))
-        .subscribe(result => this.statusEventEmitter.emit(result)));
+    dialogRef.afterClosed().pipe(
+      take(1),
+      filter(result => result)
+    ).subscribe(result => this.statusEventEmitter.emit(result));
   }
 
   /*deleteCategory(status: Status) {
@@ -82,7 +76,4 @@ export class StatusesComponent extends WidthAware implements OnInit, OnDestroy {
     return this._columnsToDisplay;
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
 }

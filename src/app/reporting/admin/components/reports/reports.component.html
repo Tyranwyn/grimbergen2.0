@@ -25,7 +25,8 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-    <mat-row *matRowDef="let category; columns: columnsToDisplay;"
+    <mat-row *matRowDef="let report; columns: columnsToDisplay;"
+             (click)="openStatusUpdateDialog(report.id)"
         class="example-element-row">
     </mat-row>
   </mat-table>

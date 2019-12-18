@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Status Updates</h1>
+<mat-dialog-content>
+  <div>
+    <h4>Statusverloop:</h4>
+    <mat-chip-list class="mat-chip-list-stacked">
+      <mat-chip *ngFor="let statusUpdate of statusUpdates$ | async; let i = index;"
+                [color]="i === 0 ? 'accent' : undefined"
+                [matTooltip]="statusUpdate.note"
+                selected>
+        <span *ngIf="statusUpdate.status | async as status" (click)="deleteUpdate(status.name, statusUpdate)">
+          {{ status.name}} - {{ statusUpdate.datumStatusChange.toDate().toLocaleDateString() }}
+        </span>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Terug</button>
+</mat-dialog-actions>

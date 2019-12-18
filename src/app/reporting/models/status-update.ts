@@ -12,6 +12,7 @@ export interface StatusUpdate {
 }
 
 export interface StatusUpdateDto {
+  id?: string;
   status: Observable<Status>;
   datumStatusChange: firebase.firestore.Timestamp;
   note?: string;

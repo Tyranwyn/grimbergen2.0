@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Category} from "../../../models/category";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatTableDataSource} from "@angular/material/table";
@@ -6,11 +6,10 @@ import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {CategoryDialogComponent} from "../category-dialog/category-dialog.component";
 import {Crud} from "../../models/crud.enum";
-import {filter} from "rxjs/operators";
-import {Subscription} from "rxjs";
+import {filter, take} from "rxjs/operators";
 import {
-  DeleteWarningDialogComponent,
-  DeleteDialogWarningData
+  DeleteDialogWarningData,
+  DeleteWarningDialogComponent
 } from "../../../common/delete-warning-dialog/delete-warning-dialog.component";
 import {DialogData} from "../../models/dialog-data.model";
 
@@ -26,9 +25,7 @@ import {DialogData} from "../../models/dialog-data.model";
     ])
   ]
 })
-export class CategoriesComponent implements OnDestroy {
-
-  private subsriptions: Subscription[] = [];
+export class CategoriesComponent {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
@@ -58,10 +55,11 @@ export class CategoriesComponent implements OnDestroy {
       data: {type, resource: category} as DialogData<Category>
     });
 
-    this.subsriptions.push(dialogRef.afterClosed()
+    dialogRef.afterClosed()
       .pipe(
+        take(1),
         filter(result => result)
-      ).subscribe(result => this.categoryEventEmitter.emit(result)));
+      ).subscribe(result => this.categoryEventEmitter.emit(result));
   }
 
   deleteCategory(category: Category) {
@@ -74,14 +72,12 @@ export class CategoriesComponent implements OnDestroy {
       } as DeleteDialogWarningData
     });
 
-    this.subsriptions.push(dialogRef.afterClosed()
+    dialogRef.afterClosed()
       .pipe(
+        take(1),
         filter(result => result)
       ).subscribe((result: Category) =>
-        this.categoryEventEmitter.emit({type: Crud.DELETE, resource: result})));
+        this.categoryEventEmitter.emit({type: Crud.DELETE, resource: result}));
   }
 
-  ngOnDestroy(): void {
-    this.subsriptions.forEach(sub => sub.unsubscribe());
-  }
 }

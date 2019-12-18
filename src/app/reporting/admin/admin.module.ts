@@ -16,11 +16,14 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {DeleteWarningDialogModule} from "../common/delete-warning-dialog/delete-warning-dialog.module";
 import {MatIconModule} from "@angular/material/icon";
-import { StatusesContainer } from './containers/statuses/statuses.container';
-import { StatusesComponent } from './components/statuses/statuses.component';
-import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
-import { ReportsContainer } from './containers/reports/reports.container';
-import { ReportsComponent } from './components/reports/reports.component';
+import {StatusesContainer} from './containers/statuses/statuses.container';
+import {StatusesComponent} from './components/statuses/statuses.component';
+import {StatusDialogComponent} from './components/status-dialog/status-dialog.component';
+import {ReportsContainer} from './containers/reports/reports.container';
+import {ReportsComponent} from './components/reports/reports.component';
+import {StatusUpdatesDialogComponent} from './components/status-updates-dialog/status-updates-dialog.component';
+import {MatChipsModule} from "@angular/material/chips";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     StatusesComponent,
     StatusDialogComponent,
     ReportsContainer,
-    ReportsComponent
+    ReportsComponent,
+    StatusUpdatesDialogComponent
   ],
   imports: [
     CommonModule,
@@ -47,9 +51,11 @@ import { ReportsComponent } from './components/reports/reports.component';
     MatButtonModule,
     MatDialogModule,
     DeleteWarningDialogModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule,
+    MatTooltipModule
   ],
-  entryComponents: [CategoryDialogComponent, StatusDialogComponent]
+  entryComponents: [CategoryDialogComponent, StatusDialogComponent, StatusUpdatesDialogComponent]
 })
 export class AdminModule {
 }

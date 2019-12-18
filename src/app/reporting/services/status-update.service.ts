@@ -23,7 +23,7 @@ export class StatusUpdateService {
       environment.collections.statusUpdates,
       ref => ref.where('report', '==', reportReference)
         .orderBy('datumStatusChange')
-    ).valueChanges();
+    ).valueChanges({ idField: 'id' });
   }
 
   getLastStatusUpdateByReportId(id: string): Observable<StatusUpdate> {
@@ -37,5 +37,9 @@ export class StatusUpdateService {
       report,
       datumStatusChange: firebase.firestore.Timestamp.now()
     }));
+  }
+
+  deleteStatusUpdate(id: string): Observable<void> {
+    return from(this.statusUpdatesCollection.doc(id).delete());
   }
 }
