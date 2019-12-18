@@ -1,4 +1,11 @@
-import {Report, ReportInputDto, ReportDto, ReportDtoWithCurrentStatus, ReportForAdminDto} from "../models/report";
+import {
+  Report,
+  ReportInputDto,
+  ReportDto,
+  ReportDtoWithCurrentStatus,
+  ReportForAdminDto,
+  ReportForAdminWithoutObservablesDto
+} from "../models/report";
 import {UserDataService} from "../../auth/services/user-data.service";
 import {CategoryService} from "../services/category.service";
 import {StatusUpdateService} from "../services/status-update.service";
@@ -59,5 +66,13 @@ export class ReportMapper {
       dateSubmitted: report.dateSubmitted.toDate(),
       currentStatus: report.currentStatus
     };
+  }
+
+  public static reportForAdminDtoToReportForAdminWithoutObservablesDto(report: ReportForAdminDto) {
+    let newReport = {id: report.id, dateSubmitted: report.dateSubmitted.toLocaleString()};
+    report.user.pipe(take(1)).subscribe(user => newReport['userEmail'] = user.email);
+    report.currentStatus.pipe(take(1)).subscribe(status => newReport['currentStatusName'] = status.name);
+    report.category.pipe(take(1)).subscribe(category => newReport['categoryName'] = category.name);
+    return newReport as ReportForAdminWithoutObservablesDto;
   }
 }

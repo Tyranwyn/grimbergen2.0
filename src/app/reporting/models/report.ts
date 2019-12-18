@@ -47,3 +47,11 @@ export interface ReportForAdminDto {
   dateSubmitted: Date;
   currentStatus?: Observable<Status>;
 }
+
+export interface ReportForAdminWithoutObservablesDto {
+  id: string;
+  userEmail: string;
+  categoryName: string;
+  dateSubmitted: string;
+  currentStatusName: string;
+}

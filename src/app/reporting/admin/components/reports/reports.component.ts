@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {ReportForAdminWithoutObservablesDto} from "../../containers/reports/reports.container";
 import {WidthAware} from "../../../models/width-aware";
+import {ReportForAdminWithoutObservablesDto} from "../../../models/report";
 
 @Component({
   selector: 'app-reports',
