@@ -2,7 +2,7 @@ import {DocumentReference} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import {Status} from './status';
 import {Observable} from 'rxjs';
-import {User, UserData} from "../../auth/user";
+import {UserData} from "../../auth/user";
 import {Category} from "./category";
 
 export interface Report {
@@ -40,14 +40,10 @@ export interface ReportDtoWithCurrentStatus extends ReportDto {
   currentStatus?: Observable<Status>;
 }
 
-export interface ReportForAdmin {
+export interface ReportForAdminDto {
   id?: string;
-  user: Observable<User>;
+  user: Observable<UserData>;
   category: Observable<Category>;
-  // location: { address: string, mapsUrl: string, coords: firebase.firestore.GeoPoint };
-  // locationDescription?: string;
-  // picture?: string;
-  // note?: string;
-  // dateSubmitted: firebase.firestore.Timestamp;
+  dateSubmitted: Date;
   currentStatus?: Observable<Status>;
 }

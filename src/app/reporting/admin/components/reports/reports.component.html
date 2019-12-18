@@ -1,1 +1,32 @@
-<p>reports works!</p>
+<div class="container">
+  <app-table-filter [tableDataSource]="_reports"></app-table-filter>
+  <mat-table
+         matSort
+         [dataSource]="_reports">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> id </mat-header-cell>
+      <mat-cell *matCellDef="let report">{{report.id}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="userEmail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> gebruiker </mat-header-cell>
+      <mat-cell *matCellDef="let report">{{report.userEmail}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="categoryName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> categorie </mat-header-cell>
+      <mat-cell *matCellDef="let report">{{report.categoryName}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="dateSubmitted">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> gemeld op </mat-header-cell>
+      <mat-cell *matCellDef="let report">{{report.dateSubmitted.toLocaleString()}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="currentStatusName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> status </mat-header-cell>
+      <mat-cell *matCellDef="let report">{{report.currentStatusName}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let category; columns: columnsToDisplay;"
+        class="example-element-row">
+    </mat-row>
+  </mat-table>
+</div>

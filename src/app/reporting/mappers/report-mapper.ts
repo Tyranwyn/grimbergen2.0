@@ -1,8 +1,8 @@
-import {Report, ReportInputDto, ReportDto, ReportDtoWithCurrentStatus} from "../models/report";
+import {Report, ReportInputDto, ReportDto, ReportDtoWithCurrentStatus, ReportForAdminDto} from "../models/report";
 import {UserDataService} from "../../auth/services/user-data.service";
 import {CategoryService} from "../services/category.service";
 import {StatusUpdateService} from "../services/status-update.service";
-import {filter, mergeMap} from "rxjs/operators";
+import {filter, mergeMap, take, tap} from "rxjs/operators";
 import {from, of} from "rxjs";
 import {Status} from "../models/status";
 import {DocumentSnapshot} from "@angular/fire/firestore";
@@ -10,7 +10,7 @@ import * as firebase from "firebase/app";
 import {DocumentReferenceService} from "../services/document-reference.service";
 
 export class ReportMapper {
-  public static reportToReportObservableDto(report: Report, userDataService: UserDataService, categoryService: CategoryService): ReportDto {
+  public static reportToReportDto(report: Report, userDataService: UserDataService, categoryService: CategoryService): ReportDto {
     return {
       id: report.id,
       category: categoryService.getCategoryById(report.category.id),
@@ -23,7 +23,7 @@ export class ReportMapper {
     };
   }
 
-  public static addCurrentStatusObservableToReportObservableDto(report: ReportDto, statusUpdateService: StatusUpdateService): ReportDtoWithCurrentStatus {
+  public static addCurrentStatusToReportDto(report: ReportDto, statusUpdateService: StatusUpdateService): ReportDtoWithCurrentStatus {
     return {
       currentStatus: statusUpdateService.getLastStatusUpdateByReportId(report.id)
         .pipe(
@@ -35,7 +35,7 @@ export class ReportMapper {
     };
   }
 
-  public static reportDtoToReportMapper(reportDto: ReportInputDto, docRefService: DocumentReferenceService) {
+  public static reportDtoToReport(reportDto: ReportInputDto, docRefService: DocumentReferenceService) {
     return {
       user: docRefService.getUserDataReference(reportDto.userId),
       category: docRefService.getCategoryReference(reportDto.categoryId),
@@ -48,6 +48,16 @@ export class ReportMapper {
       note: reportDto.note,
       picture: reportDto.picture,
       dateSubmitted: firebase.firestore.Timestamp.now()
+    };
+  }
+
+  public static reportWithCurrentStatusToReportForAdmin(report: ReportDtoWithCurrentStatus): ReportForAdminDto {
+    return {
+      id: report.id,
+      category: report.category,
+      user: report.user,
+      dateSubmitted: report.dateSubmitted.toDate(),
+      currentStatus: report.currentStatus
     };
   }
 }
