@@ -51,7 +51,8 @@ async function upload() {
     client.close();
     // resolve();
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
+    process.exit(1);
   }
   if (connected) {
     client.close();
