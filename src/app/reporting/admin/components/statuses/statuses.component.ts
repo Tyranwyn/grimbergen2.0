@@ -12,13 +12,14 @@ import {
 import {MatDialog} from "@angular/material/dialog";
 import {Subscription} from "rxjs";
 import {StatusDialogComponent} from "../status-dialog/status-dialog.component";
+import {WidthAware} from "../../../models/width-aware";
 
 @Component({
   selector: 'app-statuses',
   templateUrl: './statuses.component.html',
   styleUrls: ['./statuses.component.scss']
 })
-export class StatusesComponent implements OnInit, OnDestroy {
+export class StatusesComponent extends WidthAware implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
@@ -27,7 +28,7 @@ export class StatusesComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   private _statuses: MatTableDataSource<Status>;
   private _columnsToDisplay = ['id', 'name', 'note'];
-  isSmallScreen  = window.innerWidth <= 600;
+  private _mobileColumnsToDisplay = ['id', 'name'];
 
   @Output()
   private statusEventEmitter = new EventEmitter<DialogData<Status>>();
@@ -40,12 +41,8 @@ export class StatusesComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.isSmallScreen = window.innerWidth <= 600;
-  }
-
   constructor(private dialog: MatDialog) {
+    super();
   }
 
   ngOnInit() {
@@ -62,7 +59,7 @@ export class StatusesComponent implements OnInit, OnDestroy {
         .subscribe(result => this.statusEventEmitter.emit(result)));
   }
 
-  deleteCategory(status: Status) {
+  /*deleteCategory(status: Status) {
     const dialogRef = this.dialog.open(DeleteWarningDialogComponent, {
       width: '20em',
       role: "alertdialog",
@@ -76,11 +73,11 @@ export class StatusesComponent implements OnInit, OnDestroy {
       .pipe(filter(result => result))
       .subscribe((result: Status) =>
         this.statusEventEmitter.emit({type: Crud.DELETE, resource: result})));
-  }
+  }*/
 
   get columnsToDisplay() {
     if (this.isSmallScreen) {
-      return this._columnsToDisplay.slice(0, this._columnsToDisplay.length - 1);
+      return this._mobileColumnsToDisplay;
     }
     return this._columnsToDisplay;
   }

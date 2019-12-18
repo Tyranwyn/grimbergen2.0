@@ -2,19 +2,19 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {ReportForAdminWithoutObservablesDto} from "../../containers/reports/reports.container";
+import {WidthAware} from "../../../models/width-aware";
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.scss']
 })
-export class ReportsComponent implements OnInit {
+export class ReportsComponent extends WidthAware implements OnInit {
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   private _reports: MatTableDataSource<ReportForAdminWithoutObservablesDto>;
-  private columnsToDisplay = ['id', 'userEmail', 'categoryName', 'dateSubmitted', 'currentStatusName'];
-
-  constructor() { }
+  private _columnsToDisplay = ['id', 'userEmail', 'categoryName', 'dateSubmitted', 'currentStatusName'];
+  private _monbileColumnsToDisplay = ['userEmail', 'dateSubmitted', 'currentStatusName'];
 
   ngOnInit() {
   }
@@ -22,7 +22,6 @@ export class ReportsComponent implements OnInit {
   @Input()
   set reports(reports: ReportForAdminWithoutObservablesDto[]) {
     this._reports = new MatTableDataSource(reports);
-    this._reports.sortingDataAccessor = this.sortingDataAccessor;
     if (reports) {
       this._reports.sort = this.sort;
     }
@@ -32,12 +31,11 @@ export class ReportsComponent implements OnInit {
     return this._reports.data;
   }
 
-  private sortingDataAccessor(item, property) {
-    if (property.includes('.')) {
-      return property.split('.')
-        .reduce((object, key) => object[key], item);
+  get columnsToDisplay() {
+    if (this.isSmallScreen) {
+      return this._monbileColumnsToDisplay;
     }
-    return item[property];
+    return this._columnsToDisplay;
   }
 
 }

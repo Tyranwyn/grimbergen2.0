@@ -17,7 +17,7 @@
     </ng-container>
     <ng-container matColumnDef="dateSubmitted">
       <mat-header-cell *matHeaderCellDef mat-sort-header> gemeld op </mat-header-cell>
-      <mat-cell *matCellDef="let report">{{report.dateSubmitted.toLocaleString()}}</mat-cell>
+      <mat-cell *matCellDef="let report"><small>{{report.dateSubmitted.toLocaleString()}}</small></mat-cell>
     </ng-container>
     <ng-container matColumnDef="currentStatusName">
       <mat-header-cell *matHeaderCellDef mat-sort-header> status </mat-header-cell>
