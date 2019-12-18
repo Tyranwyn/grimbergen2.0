@@ -41,7 +41,7 @@ async function upload() {
 
     if (override) {
       console.log('clear working dir.');
-      await client.clearWorkingDir();
+      await client.clearWorkingDir().catch(reason => console.log(reason));
     }
 
     console.log('upload dir from ', localDir);
@@ -49,7 +49,6 @@ async function upload() {
     console.log('upload success.');
 
     client.close();
-    // resolve();
   } catch (error) {
     console.log(error);
     process.exit(1);
