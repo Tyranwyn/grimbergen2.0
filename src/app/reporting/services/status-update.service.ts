@@ -3,9 +3,10 @@ import {AngularFirestore, AngularFirestoreCollection, DocumentReference} from '@
 import {StatusUpdate} from '../models/status-update';
 import {environment} from '../../../environments/environment';
 import {from, Observable, of} from 'rxjs';
-import {mergeMap, tap} from 'rxjs/operators';
+import {mergeMap} from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import {Report} from '../models/report';
+import {DocumentReferenceService} from "./document-reference.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import {Report} from '../models/report';
 export class StatusUpdateService {
   private statusUpdatesCollection: AngularFirestoreCollection<StatusUpdate>;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore,
+              private docRefService: DocumentReferenceService) {
     this.statusUpdatesCollection = afs.collection(environment.collections.statusUpdates);
   }
 
@@ -22,16 +24,19 @@ export class StatusUpdateService {
     return this.afs.collection<StatusUpdate>(
       environment.collections.statusUpdates,
       ref => ref.where('report', '==', reportReference)
-        .orderBy('datumStatusChange')
+        .orderBy('datumStatusChange', "desc")
     ).valueChanges({ idField: 'id' });
   }
 
   getLastStatusUpdateByReportId(id: string): Observable<StatusUpdate> {
     return this.getStatusUpdatesByReportId(id)
-      .pipe(mergeMap(statusUpdates => of(statusUpdates[statusUpdates.length - 1])));
+      .pipe(mergeMap(statusUpdates => of(statusUpdates[0])));
   }
 
-  saveStatusUpdate(report: DocumentReference, status: DocumentReference): Observable<DocumentReference> {
+
+  saveStatusUpdate(statusId: string, reportId: string): Observable<DocumentReference> {
+    const status = this.docRefService.getStatusReference(statusId);
+    const report = this.docRefService.getReportReference(reportId);
     return from(this.statusUpdatesCollection.add({
       status,
       report,

@@ -1,16 +1,16 @@
 import {
   Report,
-  ReportInputDto,
   ReportDto,
   ReportDtoWithCurrentStatus,
   ReportForAdminDto,
-  ReportForAdminWithoutObservablesDto
+  ReportForAdminWithoutObservablesDto,
+  ReportInputDto
 } from "../models/report";
 import {UserDataService} from "../../auth/services/user-data.service";
 import {CategoryService} from "../services/category.service";
 import {StatusUpdateService} from "../services/status-update.service";
-import {filter, mergeMap, take, tap} from "rxjs/operators";
-import {from, of} from "rxjs";
+import {filter, mergeMap, take} from "rxjs/operators";
+import {from, of, Subscription} from "rxjs";
 import {Status} from "../models/status";
 import {DocumentSnapshot} from "@angular/fire/firestore";
 import * as firebase from "firebase/app";
@@ -68,11 +68,12 @@ export class ReportMapper {
     };
   }
 
-  public static reportForAdminDtoToReportForAdminWithoutObservablesDto(report: ReportForAdminDto) {
+  public static reportForAdminDtoToReportForAdminWithoutObservablesDto(report: ReportForAdminDto, subscriptions: Subscription[])
+    : ReportForAdminWithoutObservablesDto {
     let newReport = {id: report.id, dateSubmitted: report.dateSubmitted.toLocaleString()};
     report.user.pipe(take(1)).subscribe(user => newReport['userEmail'] = user.email);
-    report.currentStatus.pipe(take(1)).subscribe(status => newReport['currentStatusName'] = status.name);
     report.category.pipe(take(1)).subscribe(category => newReport['categoryName'] = category.name);
+    subscriptions.push(report.currentStatus.subscribe(status => newReport['currentStatusName'] = status.name));
     return newReport as ReportForAdminWithoutObservablesDto;
   }
 }

@@ -1,0 +1,15 @@
+mat-dialog-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.status-select {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.status-select-button {
+  grid-column-start: 3;
+  grid-column-end: 3;
+  margin-left: 1em;
+}

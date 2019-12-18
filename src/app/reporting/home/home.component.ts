@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           pictureUrl = picture;
           return this.reportService.addReport(this.createReportDto(picture));
         }),
-        switchMap(reportRef => this.statusUpdateService.saveStatusUpdate(reportRef, this.docRefService.getCategoryReference('SENT'))),
+        switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('SENT', reportRef.id)),
         switchMap(() => this.mailService.sendReportMail(this.createEmail(pictureUrl)))
       ).subscribe(docRef => this.resetFormToDefault(formDirective))
     );

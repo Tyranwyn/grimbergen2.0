@@ -12,6 +12,7 @@ import {
   DeleteWarningDialogComponent
 } from "../../../common/delete-warning-dialog/delete-warning-dialog.component";
 import {Category} from "../../../models/category";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-status-updates-dialog',
@@ -21,6 +22,7 @@ import {Category} from "../../../models/category";
 export class StatusUpdatesDialogComponent implements OnInit {
   statuses$: Observable<Status[]>;
   statusUpdates$: Observable<StatusUpdateDto[]>;
+  selectedStatusFormControl = new FormControl('');
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { reportId: string },
               private statusUpdateService: StatusUpdateService,
@@ -34,12 +36,12 @@ export class StatusUpdatesDialogComponent implements OnInit {
     this.statuses$ = this.statusService.getStatuses();
   }
 
-  deleteUpdate(statusName: string, statusUpdate: StatusUpdateDto) {
+  deleteUpdate(status: Status, statusUpdate: StatusUpdateDto) {
     const dialogRef = this.dialog.open(DeleteWarningDialogComponent, {
       width: '20em',
       role: "alertdialog",
       data: {
-        name: statusName,
+        name: status.name,
         resource: statusUpdate
       } as DeleteDialogWarningData
     });
@@ -50,4 +52,11 @@ export class StatusUpdatesDialogComponent implements OnInit {
         filter(result => result)
       ).subscribe((result: Category) => this.statusUpdateService.deleteStatusUpdate(result.id));
   }
+
+  updateStatus() {
+    this.statusUpdateService.saveStatusUpdate(this.selectedStatusFormControl.value, this.data.reportId)
+      .pipe(take(1))
+      .subscribe(() => this.selectedStatusFormControl.reset());
+  }
+
 }

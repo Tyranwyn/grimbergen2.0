@@ -1,5 +1,19 @@
 <h1 mat-dialog-title>Status Updates</h1>
 <mat-dialog-content>
+  <mat-form-field class="status-select">
+    <mat-label>Status</mat-label>
+    <select matNativeControl [formControl]="selectedStatusFormControl">
+      <option value="" selected></option>
+      <option *ngFor="let status of statuses$ | async" [value]="status.id">
+        {{ status.name }}
+      </option>
+    </select>
+  </mat-form-field>
+  <button mat-stroked-button type="button"
+          class="status-select-button"
+          (click)="updateStatus()">
+    Update Status
+  </button>
   <div>
     <h4>Statusverloop:</h4>
     <mat-chip-list class="mat-chip-list-stacked">
@@ -7,7 +21,7 @@
                 [color]="i === 0 ? 'accent' : undefined"
                 [matTooltip]="statusUpdate.note"
                 selected>
-        <span *ngIf="statusUpdate.status | async as status" (click)="deleteUpdate(status.name, statusUpdate)">
+        <span *ngIf="statusUpdate.status | async as status" (click)="deleteUpdate(status, statusUpdate)">
           {{ status.name}} - {{ statusUpdate.datumStatusChange.toDate().toLocaleDateString() }}
         </span>
       </mat-chip>
