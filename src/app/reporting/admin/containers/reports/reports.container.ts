@@ -17,7 +17,7 @@ export class ReportsContainer implements OnInit {
   ngOnInit() {
     this.reports$ = this.reportService.getReportsForAdmin()
       .pipe(map(reports => reports.map(report => {
-        let newReport = {id: report.id, dateSubmitted: report.dateSubmitted};
+        let newReport = {id: report.id, dateSubmitted: report.dateSubmitted.toLocaleString()};
         report.user.pipe(take(1)).subscribe(user => newReport['userEmail'] = user.email);
         report.currentStatus.pipe(take(1)).subscribe(status => newReport['currentStatusName'] = status.name);
         report.category.pipe(take(1)).subscribe(category => newReport['categoryName'] = category.name);
@@ -31,6 +31,6 @@ export interface ReportForAdminWithoutObservablesDto {
   id: string;
   userEmail: string;
   categoryName: string;
-  dateSubmitted: Date;
+  dateSubmitted: string;
   currentStatusName: string;
 }
