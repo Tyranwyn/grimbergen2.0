@@ -28,7 +28,7 @@ import {Address, Result} from "../models/nomatim.types";
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  private subscriptions: Subscription[] = [];
+  private subs: Subscription[] = [];
 
   @ViewChild(FileUploadComponent, {static: false})
   fileUpload: FileUploadComponent;
@@ -53,9 +53,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.subscriptions.push(this.store.select(fromRoot.getUserUid)
+    this.subs.push(this.store.select(fromRoot.getUserUid)
       .subscribe(uid => this.uid.setValue(uid)));
-    this.subscriptions.push(this.store.select(fromRoot.getUserDataSelector)
+    this.subs.push(this.store.select(fromRoot.getUserDataSelector)
       .subscribe(userData => {
           this.firstName.setValue(userData.firstName);
           this.lastName.setValue(userData.lastName);
@@ -89,8 +89,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   submit(formDirective: FormGroupDirective) {
     this.store.dispatch(UserDataActions.UpdateUserData({id: this.uid.value, data: this.createPartialUserData()}));
     let pictureUrl = '';
-    this.subscriptions.push(this.imageService.saveReportImage(this.formGroup.get('picture').value)
+    this.imageService.saveReportImage(this.formGroup.get('picture').value)
       .pipe(
+        take(1),
         switchMap(value => from(value.getDownloadURL())),
         switchMap(picture => {
           pictureUrl = picture;
@@ -99,7 +100,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('SENT', reportRef.id)),
         switchMap(() => this.mailService.sendReportMail(this.createEmail(pictureUrl)))
       ).subscribe(docRef => this.resetFormToDefault(formDirective))
-    );
   }
 
   search($event: KeyboardEvent) {
@@ -192,11 +192,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       format: "json"
     }).pipe(take(1))
       .subscribe(result => {
-      let formattedAddress = this.formatAddress(result.address);
-      this.locationAddress.setValue(formattedAddress);
-      this.locationCoords.setValue({lat: result.lat, long: result.lon});
-      this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`)
-    });
+        let formattedAddress = this.formatAddress(result.address);
+        this.locationAddress.setValue(formattedAddress);
+        this.locationCoords.setValue({lat: result.lat, long: result.lon});
+        this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`)
+      });
   }
 
   get uid(): FormControl {
@@ -244,6 +244,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 }
