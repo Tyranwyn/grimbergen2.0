@@ -3,13 +3,13 @@ import {Store} from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as UserDataActions from '../../auth/state/user-data/user-data.actions';
-import {EMPTY, from, Observable, Subscription} from 'rxjs';
+import {EMPTY, from, Observable, of, Subscription} from 'rxjs';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
 import {Category} from '../models/category';
 import {CategoryService} from '../services/category.service';
 import {ImageService} from '../services/image.service';
 import {ReportService} from '../services/report.service';
-import {switchMap, take} from 'rxjs/operators';
+import {catchError, switchMap, take} from 'rxjs/operators';
 import {ReportInputDto} from '../models/report';
 import {MailService} from '../services/mail.service';
 import {environment} from '../../../environments/environment';
@@ -20,6 +20,7 @@ import {FileUploadComponent} from "../common/file-upload/file-upload.component";
 import {DocumentReferenceService} from "../services/document-reference.service";
 import {NomatimOSMService} from "../services/nomatim-osm.service";
 import {Address, Result} from "../models/nomatim.types";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   $categories: Observable<Category[]>;
   results$: Observable<Result[]>;
+  loading = false;
 
   constructor(private store: Store<fromRoot.State>,
               private fb: FormBuilder,
@@ -47,7 +49,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               private statusUpdateService: StatusUpdateService,
               private statusService: StatusService,
               private docRefService: DocumentReferenceService,
-              private nomatimService: NomatimOSMService) {
+              private nomatimService: NomatimOSMService,
+              private snackBar: MatSnackBar) {
     this.$categories = categoryService.getCategories();
   }
 
@@ -87,6 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   submit(formDirective: FormGroupDirective) {
+    this.loading = true;
     this.store.dispatch(UserDataActions.UpdateUserData({id: this.uid.value, data: this.createPartialUserData()}));
     let pictureUrl = '';
     this.imageService.saveReportImage(this.formGroup.get('picture').value)
@@ -98,8 +102,24 @@ export class HomeComponent implements OnInit, OnDestroy {
           return this.reportService.addReport(this.createReportDto(picture));
         }),
         switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('SENT', reportRef.id)),
-        switchMap(() => this.mailService.sendReportMail(this.createEmail(pictureUrl)))
-      ).subscribe(docRef => this.resetFormToDefault(formDirective))
+        switchMap(() => this.mailService.sendReportMail(this.createEmail(pictureUrl))),
+        catchError(err => {
+          this.loading = false;
+          return of({failed: true, err});
+        })
+      ).subscribe(result => {
+        if (result && result.failed) {
+          console.log(result.err);
+          this.snackBar.open('Er ging iets fout, probeer later nog eens', 'X', {
+            duration: 2000,
+          });
+        } else {
+          this.resetFormToDefault(formDirective);
+          this.snackBar.open('Verzonden!', 'X', {
+            duration: 2000,
+          });
+        }
+    })
   }
 
   search($event: KeyboardEvent) {
@@ -139,6 +159,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.firstName.setValue(firstName);
     this.lastName.setValue(lastName);
     this.email.setValue(email);
+    this.loading = false;
   }
 
   private createPartialUserData(): Partial<UserData> {

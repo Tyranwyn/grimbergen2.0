@@ -16,7 +16,7 @@ export class ReportsComponent extends WidthAware implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   private _reports: MatTableDataSource<ReportForAdminWithoutObservablesDto>;
   private _columnsToDisplay = ['id', 'userEmail', 'categoryName', 'dateSubmitted', 'currentStatusName'];
-  private _monbileColumnsToDisplay = ['userEmail', 'dateSubmitted', 'currentStatusName'];
+  private _mobileColumnsToDisplay = ['userEmail', 'dateSubmitted', 'currentStatusName'];
 
   constructor(private dialog: MatDialog) {
     super();
@@ -47,7 +47,7 @@ export class ReportsComponent extends WidthAware implements OnInit {
 
   get columnsToDisplay() {
     if (this.isSmallScreen) {
-      return this._monbileColumnsToDisplay;
+      return this._mobileColumnsToDisplay;
     }
     return this._columnsToDisplay;
   }

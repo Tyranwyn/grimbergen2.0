@@ -71,6 +71,6 @@
         <textarea matInput [formControl]="note" placeholder="Extra informatie (optioneel)"></textarea>
       </mat-form-field>
     </div>
-    <button mat-flat-button [disabled]="formGroup.invalid" color="primary" class="full-width">Verzenden</button>
+    <button mat-flat-button [disabled]="formGroup.invalid || loading" color="primary" [class.spinner]="loading" class="full-width">Verzenden</button>
   </div>
 </form>
