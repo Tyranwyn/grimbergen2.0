@@ -11,7 +11,9 @@
   </mat-form-field>
   <button mat-stroked-button type="button"
           class="status-select-button"
-          (click)="updateStatus()">
+          (click)="updateStatus()"
+          [disabled]="!selectedStatusFormControl.value"
+  [class.spinner]="loading">
     <mat-icon>add</mat-icon>
   </button>
   <div>

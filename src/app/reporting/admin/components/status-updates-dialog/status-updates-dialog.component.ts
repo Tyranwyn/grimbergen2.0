@@ -2,10 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
 import {StatusUpdateService} from "../../../services/status-update.service";
 import {StatusService} from "../../../services/status.service";
-import {Observable} from "rxjs";
+import {EMPTY, Observable, of} from "rxjs";
 import {Status} from "../../../models/status";
 import {StatusUpdateDto} from "../../../models/status-update";
-import {filter, map, take} from "rxjs/operators";
+import {catchError, filter, map, take} from "rxjs/operators";
 import {StatusUpdateMapper} from "../../../mappers/status-update-mapper";
 import {
   DeleteDialogWarningData,
@@ -13,6 +13,7 @@ import {
 } from "../../../common/delete-warning-dialog/delete-warning-dialog.component";
 import {Category} from "../../../models/category";
 import {FormControl} from "@angular/forms";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-status-updates-dialog',
@@ -23,11 +24,13 @@ export class StatusUpdatesDialogComponent implements OnInit {
   statuses$: Observable<Status[]>;
   statusUpdates$: Observable<StatusUpdateDto[]>;
   selectedStatusFormControl = new FormControl('');
+  loading = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { reportId: string },
               private statusUpdateService: StatusUpdateService,
               private statusService: StatusService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -55,8 +58,15 @@ export class StatusUpdatesDialogComponent implements OnInit {
 
   updateStatus() {
     this.statusUpdateService.saveStatusUpdate(this.selectedStatusFormControl.value, this.data.reportId)
-      .pipe(take(1))
-      .subscribe(() => this.selectedStatusFormControl.reset());
+      .pipe(take(1), catchError(err => EMPTY))
+      .subscribe(result => {
+        if (result) {
+          this.snackBar.open('Status geüpdatet', 'X', { duration: 2000 });
+          this.selectedStatusFormControl.reset();
+        } else {
+          this.snackBar.open('Er ging iets verkeerd, probeer opnieuw later', 'X', { duration: 2000 });
+        }
+      });
   }
 
 }
