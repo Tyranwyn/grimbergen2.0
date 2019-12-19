@@ -6,11 +6,10 @@ const port = process.env.FTP_PORT || 21;
 const user = process.env.FTP_USERNAME;
 const password = process.env.FTP_PASSWORD;
 const secure = false;
-const override =  true;
+const override = true;
 const localDir = './dist/grimbergen-app';
 const remoteDir = '/';
 
-console.log(localDir);
 if (!localDir) {
   throw new Error('Missing localDir.');
 }
@@ -22,38 +21,26 @@ if (!remoteDir) {
 upload();
 
 async function upload() {
-  let connected = false;
   const client = new ftp.Client();
+  // client.ftp.verbose = true;
 
-  try {
-    console.log('trying to access ftp server.');
-    await client.access({
-      host: host,
-      user: user,
-      port: port,
-      password: password,
-      secure: secure
-    });
-    connected = true;
-    console.log('login success.');
-    console.log('ensure remote dir ', remoteDir);
-    await client.ensureDir(remoteDir);
-
-    if (override) {
-      console.log('clear working dir.');
-      await client.clearWorkingDir().catch(reason => console.log(reason));
-    }
-
-    console.log('upload dir from ', localDir);
-    await client.uploadFromDir(localDir);
-    console.log('upload success.');
-
-    client.close();
-  } catch (error) {
-    console.log(error);
-    process.exit(1);
-  }
-  if (connected) {
-    client.close();
-  }
+  console.log('trying to access ftp server.');
+  client.access({host, user, port, password, secure})
+    .then(() => console.log('login success.'))
+    .then(() => client.ensureDir(remoteDir))
+    .then(() => console.log('clear working dir.'))
+    .then(value => {
+      if (override) {
+        return client.clearWorkingDir().catch(error => console.log(error));
+      } else return value;
+    }).then(() => console.log('upload dir from ', localDir))
+    .then(() => client.uploadFromDir(localDir).catch(x => console.log(x)))
+    .then(() => console.log('upload success.'))
+    .then(() => console.log('closing client'))
+    .then(() => client.close())
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    );
 }
