@@ -52,6 +52,6 @@ export interface ReportForAdminWithoutObservablesDto {
   id: string;
   userEmail: string;
   categoryName: string;
-  dateSubmitted: string;
+  dateSubmitted: Date;
   currentStatusName: string;
 }

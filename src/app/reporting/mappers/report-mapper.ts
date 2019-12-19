@@ -70,7 +70,7 @@ export class ReportMapper {
 
   public static reportForAdminDtoToReportForAdminWithoutObservablesDto(report: ReportForAdminDto, subscriptions: Subscription[])
     : ReportForAdminWithoutObservablesDto {
-    let newReport = {id: report.id, dateSubmitted: report.dateSubmitted.toLocaleString()};
+    let newReport = {id: report.id, dateSubmitted: report.dateSubmitted};
     report.user.pipe(take(1)).subscribe(user => newReport['userEmail'] = user.email);
     report.category.pipe(take(1)).subscribe(category => newReport['categoryName'] = category.name);
     subscriptions.push(report.currentStatus.subscribe(status => newReport['currentStatusName'] = status.name));

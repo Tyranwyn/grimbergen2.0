@@ -6,7 +6,7 @@ const port = process.env.FTP_PORT || 21;
 const user = process.env.FTP_USERNAME;
 const password = process.env.FTP_PASSWORD;
 const secure = false;
-const override = true;
+const override = false;
 const localDir = './dist/grimbergen-app';
 const remoteDir = '/';
 
