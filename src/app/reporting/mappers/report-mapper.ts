@@ -49,7 +49,7 @@ export class ReportMapper {
       location: {
         address: reportDto.location.address,
         mapsUrl: reportDto.location.mapsUrl,
-        coords: new firebase.firestore.GeoPoint(reportDto.location.lat, reportDto.location.long)
+        coords: new firebase.firestore.GeoPoint(+reportDto.location.lat, +reportDto.location.long)
       },
       locationDescription: reportDto.locationDescription,
       note: reportDto.note,

@@ -30,7 +30,7 @@ export interface ReportDto {
 export interface ReportInputDto {
   userId: string;
   categoryId: string;
-  location: { address: string, mapsUrl: string, lat: number, long: number };
+  location: { address: string, mapsUrl: string, lat: string, long: string };
   locationDescription?: string;
   picture?: string;
   note?: string;
