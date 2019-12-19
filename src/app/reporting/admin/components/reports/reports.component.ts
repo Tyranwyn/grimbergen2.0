@@ -24,6 +24,8 @@ export class ReportsComponent extends WidthAware implements OnInit {
 
 
   ngOnInit() {
+    this.sort.active = 'dateSubmitted';
+    this.sort.direction = "desc";
   }
 
   @Input()
