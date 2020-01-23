@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
-    "build:beta": "ng build --base-href /App/",
+    "build:beta": "ng build",
     "deploy": "node ./ftp-upload.js",
     "test": "ng test",
     "lint": "ng lint",

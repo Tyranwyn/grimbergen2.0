@@ -8,7 +8,7 @@ const password = process.env.FTP_PASSWORD;
 const secure = false;
 const override = false;
 const localDir = './dist/grimbergen-app';
-const remoteDir = '/';
+const remoteDir = process.env.FTP_BASE_DIR || '/';
 
 if (!localDir) {
   throw new Error('Missing localDir.');
