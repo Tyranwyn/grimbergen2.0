@@ -9,18 +9,18 @@ import {Category} from '../models/category';
 import {CategoryService} from '../services/category.service';
 import {ImageService} from '../services/image.service';
 import {ReportService} from '../services/report.service';
-import {catchError, switchMap, take} from 'rxjs/operators';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import {ReportInputDto} from '../models/report';
 import {MailService} from '../services/mail.service';
 import {environment} from '../../../environments/environment';
 import {UserData} from '../../auth/user';
 import {StatusUpdateService} from '../services/status-update.service';
 import {StatusService} from '../services/status.service';
-import {FileUploadComponent} from "../common/file-upload/file-upload.component";
-import {DocumentReferenceService} from "../services/document-reference.service";
-import {NomatimOSMService} from "../services/nomatim-osm.service";
-import {Address, Result} from "../models/nomatim.types";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {FileUploadComponent} from '../common/file-upload/file-upload.component';
+import {DocumentReferenceService} from '../services/document-reference.service';
+import {NomatimOSMService} from '../services/nomatim-osm.service';
+import {Address, Result} from '../models/nomatim.types';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-home',
@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             duration: 2000,
           });
         }
-    })
+    });
   }
 
   search($event: KeyboardEvent) {
@@ -127,8 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       // @ts-ignore
       if ($event.target.value) {
         this.results$ = this.nomatimService.search({
-          format: "json",
-          "accept-language": 'nl-BE',
+          format: 'json',
+          'accept-language': 'nl-BE',
           // @ts-ignore
           street: $event.target.value,
           city: 'Grimbergen',
@@ -209,14 +209,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.nomatimService.reverse({
       lat: position.coords.latitude,
       lon: position.coords.longitude,
-      "accept-language": 'nl-BE',
-      format: "json"
-    }).pipe(take(1))
-      .subscribe(result => {
-        let formattedAddress = this.formatAddress(result.address);
+      'accept-language': 'nl-BE',
+      format: 'json'
+    }).pipe(
+      take(1),
+      tap(value => console.log(value)),
+      filter(value => value.display_name.toLowerCase().indexOf('grimbergen') !== -1),
+      tap(value => console.log(value))
+    ).subscribe(result => {
+        const formattedAddress = this.formatAddress(result.address);
         this.locationAddress.setValue(formattedAddress);
         this.locationCoords.setValue({lat: result.lat, long: result.lon});
-        this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`)
+        this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`);
       });
   }
 

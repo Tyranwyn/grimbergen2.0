@@ -7,7 +7,7 @@ export interface SearchCommon {
   countrycodes?: string | string[];
   exclude_place_ids?: string | string[];
   limit?: number;
-  viewbox?: { x1: number, y1: number, x2: number, y2: number },
+  viewbox?: { x1: number, y1: number, x2: number, y2: number };
   bounded?: 0 | 1;
   email?: string;
   dedupe?: 0 | 1;

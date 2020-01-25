@@ -20,6 +20,6 @@ export class NomatimOSMService {
   reverse(reverse: Reverse): Observable<Result> {
     return this.http.get<Result>(`${environment.nomatimApi}/reverse`,
       // @ts-ignore
-      {params: reverse})
+      {params: reverse});
   }
 }
