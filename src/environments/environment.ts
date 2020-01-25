@@ -3,35 +3,35 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: process.env.PRODUCTION || false,
   collections: {
-    categories: 'categories-test',
-    statusUpdates: 'status-updates-test',
-    reports: 'reports-test',
-    pairReports: 'pair-reports-test',
-    statuses: 'statuses-test',
-    userData: 'users-data-test',
-    mail: 'mail'
+    categories: process.env.collections.CATEGORIES,
+    statusUpdates: process.env.collections.STATUS_UPDATES,
+    reports: process.env.collections.REPORTS,
+    pairReports: process.env.collections.PAIR_REPORTS,
+    statuses: process.env.collections.STATUSES,
+    userData: process.env.collections.USER_DATA,
+    mail: process.env.collections.MAIL
   },
   storage: {
-    images: 'images-test',
-    reports: 'reports',
-    categories: 'categories'
+    images: process.env.storage.IMAGES,
+    reports: process.env.storage.IMAGES,
+    categories: process.env.storage.CATEGORIES
   },
   mailAddresses: {
-    toDefault: 'sammi.fux@gmail.com',
-    fromDefault: 'grimbergen.app@gmail.com',
+    toDefault: process.env.mailAddresses.TO_DEFAULT,
+    fromDefault: process.env.mailAddresses.FROM_DEFAULT
   },
   nomatimApi: 'https://nominatim.openstreetmap.org',
   firebaseConfig: {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DATABASE_URL,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID
+    apiKey: process.env.firebase.API_KEY,
+    authDomain: process.env.firebase.AUTH_DOMAIN,
+    databaseURL: process.env.firebase.DATABASE_URL,
+    projectId: process.env.firebase.PROJECT_ID,
+    storageBucket: process.env.firebase.STORAGE_BUCKET,
+    messagingSenderId: process.env.firebase.MESSAGING_SENDER_ID,
+    appId: process.env.firebase.APP_ID,
+    measurementId: process.env.firebase.MEASUREMENT_ID
   }
 };
 
