@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "grimbergen-app": {
+    "grimpunt": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
             "customWebpackConfig": {
               "path": "extra-webpack.config.ts"
             },
-            "outputPath": "dist/grimbergen-app",
+            "outputPath": "dist/grimpunt",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -29,6 +29,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/manifest.webmanifest",
               {
                 "glob": "**/*",
                 "input": "node_modules/ngx-auth-firebaseui/assets/",
@@ -68,25 +69,27 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "grimbergen-app:build"
+            "browserTarget": "grimpunt:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "grimbergen-app:build:production"
+              "browserTarget": "grimpunt:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "grimbergen-app:build"
+            "browserTarget": "grimpunt:build"
           }
         },
         "test": {
@@ -98,7 +101,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -124,16 +128,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "grimbergen-app:serve"
+            "devServerTarget": "grimpunt:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "grimbergen-app:serve:production"
+              "devServerTarget": "grimpunt:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "grimbergen-app"
+  "defaultProject": "grimpunt"
 }

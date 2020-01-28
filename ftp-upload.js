@@ -7,7 +7,7 @@ const user = process.env.FTP_USERNAME;
 const password = process.env.FTP_PASSWORD;
 const secure = false;
 const override = false;
-const localDir = './dist/grimbergen-app';
+const localDir = './dist/grimpunt';
 const remoteDir = process.env.FTP_BASE_DIR || '/';
 
 if (!localDir) {

@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ReportService} from '../services/report.service';
-import {ReportDtoWithCurrentStatus} from '../models/report';
-import {Observable} from 'rxjs';
-import {Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { ReportService } from '../services/report.service';
+import { ReportDtoWithCurrentStatus } from '../models/report';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import * as fromRoot from '../../reducers';
-import {switchMap} from 'rxjs/operators';
-import {nonNull} from '../../utils/custom-rxjs-pipes';
-import {StatusUpdateService} from '../services/status-update.service';
-import {StatusService} from '../services/status.service';
+import { switchMap } from 'rxjs/operators';
+import { nonNull } from '../../utils/custom-rxjs-pipes';
+import { StatusUpdateService } from '../services/status-update.service';
+import { StatusService } from '../services/status.service';
 
 @Component({
   selector: 'app-reports',

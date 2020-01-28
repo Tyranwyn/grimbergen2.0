@@ -1,23 +1,28 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {AngularFireModule} from '@angular/fire';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgxAuthFirebaseUIModule} from 'ngx-auth-firebaseui';
-import {ReportingModule} from './reporting/reporting.module';
-import {AuthModule} from './auth/auth.module';
-import {StoreModule} from '@ngrx/store';
-import {metaReducers, reducers} from './reducers';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {environment} from '../environments/environment';
-import {EffectsModule} from '@ngrx/effects';
-import {AppEffects} from './app.effects';
-import {stringify} from './utils/serializer';
-import {UserEffects} from './auth/state/user/user.effects';
-import {UserDataEffects} from './auth/state/user-data/user-data.effects';
-import {CommonModule} from "@angular/common";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AngularFireModule } from '@angular/fire';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { ReportingModule } from './reporting/reporting.module';
+import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
+import { metaReducers, reducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import { stringify } from './utils/serializer';
+import { UserEffects } from './auth/state/user/user.effects';
+import { UserDataEffects } from './auth/state/user-data/user-data.effects';
+import { CommonModule } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+export function sanitizer(action) {
+  return JSON.parse(stringify(action));
+}
 
 @NgModule({
   declarations: [
@@ -40,15 +45,16 @@ import {CommonModule} from "@angular/common";
       }
     }),
     StoreDevtoolsModule.instrument({
-      name: 'Grimbergen 2.0',
+      name: 'GrimPunt',
       maxAge: 25,
       logOnly: environment.production,
-      actionSanitizer: action => JSON.parse(stringify(action))
+      actionSanitizer: sanitizer
     }),
-    EffectsModule.forRoot([AppEffects, UserEffects, UserDataEffects]),
+    EffectsModule.forRoot([ AppEffects, UserEffects, UserDataEffects ]),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }

@@ -213,9 +213,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       format: 'json'
     }).pipe(
       take(1),
-      tap(value => console.log(value)),
       filter(value => value.display_name.toLowerCase().indexOf('grimbergen') !== -1),
-      tap(value => console.log(value))
     ).subscribe(result => {
         const formattedAddress = this.formatAddress(result.address);
         this.locationAddress.setValue(formattedAddress);

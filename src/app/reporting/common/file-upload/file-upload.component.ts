@@ -16,7 +16,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   @Input() progress;
   @Input() isValid;
 
-  private file: File | null = null;
+  file: File | null = null;
   imagePreview: any;
   onChange = input => {};
 

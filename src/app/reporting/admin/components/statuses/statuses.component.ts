@@ -1,27 +1,27 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {Status} from "../../../models/status";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
-import {Crud} from "../../models/crud.enum";
-import {DialogData} from "../../models/dialog-data.model";
-import {filter, take} from "rxjs/operators";
-import {MatDialog} from "@angular/material/dialog";
-import {StatusDialogComponent} from "../status-dialog/status-dialog.component";
-import {WidthAware} from "../../../models/width-aware";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Status } from '../../../models/status';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { Crud } from '../../models/crud.enum';
+import { DialogData } from '../../models/dialog-data.model';
+import { filter, take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
+import { WidthAware } from '../../../models/width-aware';
 
 @Component({
   selector: 'app-statuses',
   templateUrl: './statuses.component.html',
-  styleUrls: ['./statuses.component.scss']
+  styleUrls: [ './statuses.component.scss' ]
 })
 export class StatusesComponent extends WidthAware implements OnInit {
 
   types = Crud;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  private _statuses: MatTableDataSource<Status>;
-  private _columnsToDisplay = ['id', 'name', 'note'];
-  private _mobileColumnsToDisplay = ['id', 'name'];
+  _statuses: MatTableDataSource<Status>;
+  private _columnsToDisplay = [ 'id', 'name', 'note' ];
+  private _mobileColumnsToDisplay = [ 'id', 'name' ];
 
   @Output()
   private statusEventEmitter = new EventEmitter<DialogData<Status>>();

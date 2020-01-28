@@ -1,0 +1,88 @@
+{
+  "name": "GrimPunt",
+  "short_name": "GrimPunt",
+  "description": "De app waar Grimbergenaren meldingen kunnen doen.",
+  "theme_color": "#1976d2",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/?utm_source=a2hs",
+  "icons": [
+    {
+      "src": "assets/icons/icon-44x44.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "assets/icons/icon-48x48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "assets/icons/icon-1240x600.png",
+      "sizes": "1240x600"
+    },
+    {
+      "src": "assets/icons/icon-300x300.png",
+      "sizes": "300x300"
+    },
+    {
+      "src": "assets/icons/icon-150x150.png",
+      "sizes": "150x150"
+    },
+    {
+      "src": "assets/icons/icon-88x88.png",
+      "sizes": "88x88"
+    },
+    {
+      "src": "assets/icons/icon-24x24.png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "assets/icons/icon-50x50.png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "assets/icons/icon-620x300.png",
+      "sizes": "620x300"
+    },
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/icons/icon-144x144.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "assets/icons/icon-96x96.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/icons/icon-72x72.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "assets/icons/icon-36x36.png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "assets/icons/icon-1024x1024.png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "assets/icons/icon-180x180.png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "assets/icons/icon-152x152.png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "assets/icons/icon-120x120.png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "assets/icons/icon-76x76.png",
+      "sizes": "76x76"
+    }
+  ]
+}
