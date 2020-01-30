@@ -134,10 +134,16 @@ export class HomeComponent implements OnInit, OnDestroy {
           city: 'Grimbergen',
           addressdetails: 1
         });
+        this.clearLocation();
       } else {
         this.results$ = EMPTY;
       }
     }
+  }
+
+  private clearLocation() {
+    this.locationCoords.setValue(null);
+    this.locationMapsUrl.setValue(null);
   }
 
   formatAddress(address: Address): string {
