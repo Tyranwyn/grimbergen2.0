@@ -7,13 +7,16 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
 
 import { get, set } from 'idb-keyval';
-import { AlertController, ToastController } from '@ionic/angular';
 import { SwUpdate } from '@angular/service-worker';
+import { AlertController, ToastController } from '@ionic/angular';
+import { MatBottomSheet } from '@angular/material';
+import { InstallSheetComponent } from './install-sheet/install-sheet.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'GrimPunt';
@@ -23,7 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
               private afAuth: AngularFireAuth,
               private toastController: ToastController,
               private swUpdate: SwUpdate,
-              private alertController: AlertController) {}
+              private alertController: AlertController,
+              private bottomSheet: MatBottomSheet) {
+  }
 
   ngOnInit(): void {
     this.showIosInstallBanner()
@@ -50,15 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Checks if it should display install popup notification
     if (isIos() && !isInStandaloneMode() && isBannerShown === undefined) {
-      const toast = await this.toastController.create({
-        showCloseButton: true,
-        closeButtonText: 'OK',
-        cssClass: 'custom-toast',
-        position: 'bottom',
-        message: `To install the app, tap "Share" icon below and select "Add to Home Screen".`,
+      const bottomSheetRef = this.bottomSheet.open(InstallSheetComponent);
+      bottomSheetRef.afterDismissed().pipe(take(1)).subscribe(() => {
+        set('isBannerShown', true);
       });
-      toast.present();
-      set('isBannerShown', true);
     }
   }
 

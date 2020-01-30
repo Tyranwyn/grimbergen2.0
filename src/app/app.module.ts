@@ -19,6 +19,8 @@ import { UserEffects } from './auth/state/user/user.effects';
 import { UserDataEffects } from './auth/state/user-data/user-data.effects';
 import { CommonModule } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { InstallSheetModule } from './install-sheet/install-sheet.module';
+import { MatListModule } from '@angular/material';
 
 export function sanitizer(action) {
   return JSON.parse(stringify(action));
@@ -26,7 +28,7 @@ export function sanitizer(action) {
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ export function sanitizer(action) {
     }),
     EffectsModule.forRoot([ AppEffects, UserEffects, UserDataEffects ]),
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    InstallSheetModule
   ],
   providers: [],
   bootstrap: [ AppComponent ]
