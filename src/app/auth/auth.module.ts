@@ -4,6 +4,9 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+import { RequestResetPasswordDialogComponent } from './request-reset-password-dialog/request-reset-password-dialog.component';
+import { MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const authRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -11,12 +14,17 @@ const authRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent ],
+  declarations: [ LoginComponent, RegisterComponent, RequestResetPasswordDialogComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(authRoutes),
-    NgxAuthFirebaseUIModule
-  ]
+    NgxAuthFirebaseUIModule,
+    MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatButtonModule
+  ],
+  entryComponents: [ RequestResetPasswordDialogComponent ]
 })
 export class AuthModule {
 }
