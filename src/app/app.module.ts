@@ -20,7 +20,6 @@ import { UserDataEffects } from './auth/state/user-data/user-data.effects';
 import { CommonModule } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { InstallSheetModule } from './install-sheet/install-sheet.module';
-import { MatListModule } from '@angular/material';
 
 export function sanitizer(action) {
   return JSON.parse(stringify(action));
