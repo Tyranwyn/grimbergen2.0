@@ -9,7 +9,6 @@ phases:
   pre_build:
     commands:
       - aws s3 cp s3://config.grimpunt.be/environment.$ENV.ts src/environments/environment.prod.ts
-      - aws s3 cp s3://config.grimpunt.be/.beta-env .env
   build:
     commands:
       - npm run build
