@@ -23,7 +23,6 @@ upload();
 async function upload() {
   const client = new ftp.Client();
   // client.ftp.verbose = true;
-
   console.log('trying to access ftp server.');
   client.access({host, user, port, password, secure})
     .then(() => console.log('login success.'))
