@@ -27,16 +27,56 @@ async function upload() {
   console.log('trying to access ftp server.');
   client.access({host, user, port, password, secure})
     .then(() => console.log('login success.'))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => client.ensureDir(remoteDir))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => console.log('clear working dir.'))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(value => {
       if (override) {
         return client.clearWorkingDir().catch(error => console.log(error));
       } else return value;
-    }).then(() => console.log('upload dir from ', localDir))
+    })
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    ).then(() => console.log('upload dir from ', localDir))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => client.uploadFromDir(localDir).catch(x => console.log(x)))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => console.log('upload success.'))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => console.log('closing client'))
+    .catch(() => {
+        console.log(error);
+        process.exit(1);
+      }
+    )
     .then(() => client.close())
     .catch(() => {
         console.log(error);
