@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "be.grimpunt.pwa",
+    "sha256_cert_fingerprints": ["5F:05:59:33:21:CF:04:53:C2:B9:F5:3B:F7:63:3C:EA:E0:1B:F0:73:8F:E7:25:06:A9:38:B1:6D:4B:C4:BC:92"] }
+}]
