@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showIosInstallBanner()
       .catch(err => console.log(err));
+    this.updater();
     this.authStateSubscription = this.afAuth.authState.subscribe(() => this.store.dispatch(UserActions.GetUser()));
   }
 
