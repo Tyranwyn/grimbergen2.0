@@ -1,4 +1,4 @@
-import {Crud} from "./crud.enum";
+import { Crud } from './crud.enum';
 
 export interface DialogData<R> {
   type: Crud;
