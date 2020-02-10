@@ -1,31 +1,32 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../reducers';
 import * as UserDataActions from '../../auth/state/user-data/user-data.actions';
-import {EMPTY, from, Observable, of, Subscription} from 'rxjs';
-import {FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators} from '@angular/forms';
-import {Category} from '../models/category';
-import {CategoryService} from '../services/category.service';
-import {ImageService} from '../services/image.service';
-import {ReportService} from '../services/report.service';
+import { EMPTY, from, Observable, of, Subscription } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Category } from '../models/category';
+import { CategoryService } from '../services/category.service';
+import { ImageService } from '../services/image.service';
+import { ReportService } from '../services/report.service';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import {ReportInputDto} from '../models/report';
-import {MailService} from '../services/mail.service';
-import {environment} from '../../../environments/environment';
-import {UserData} from '../../auth/user';
-import {StatusUpdateService} from '../services/status-update.service';
-import {StatusService} from '../services/status.service';
-import {FileUploadComponent} from '../common/file-upload/file-upload.component';
-import {DocumentReferenceService} from '../services/document-reference.service';
-import {NomatimOSMService} from '../services/nomatim-osm.service';
-import {Address, Result} from '../models/nomatim.types';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { ReportInputDto } from '../models/report';
+import { MailService } from '../services/mail.service';
+import { environment } from '../../../environments/environment';
+import { UserData } from '../../auth/user';
+import { StatusUpdateService } from '../services/status-update.service';
+import { StatusService } from '../services/status.service';
+import { FileUploadComponent } from '../common/file-upload/file-upload.component';
+import { DocumentReferenceService } from '../services/document-reference.service';
+import { NomatimOSMService } from '../services/nomatim-osm.service';
+import { Address, Result } from '../models/nomatim.types';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { createUserMail } from './user.mail';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: [ './home.component.scss' ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
@@ -70,17 +71,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.formGroup = this.fb.group({
-      uid: [null, Validators.required],
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
-      locationCoords: [null, Validators.required],
-      locationAddress: [null, Validators.required],
-      locationMapsUrl: [null, Validators.required],
+      uid: [ null, Validators.required ],
+      firstName: [ null, Validators.required ],
+      lastName: [ null, Validators.required ],
+      email: [ null, [ Validators.required, Validators.email ] ],
+      locationCoords: [ null, Validators.required ],
+      locationAddress: [ null, Validators.required ],
+      locationMapsUrl: [ null, Validators.required ],
       locationDescription: null,
-      category: [null, Validators.required],
+      category: [ null, Validators.required ],
       note: null,
-      picture: [null, Validators.required],
+      picture: [ null, Validators.required ],
     });
   }
 
@@ -92,34 +93,39 @@ export class HomeComponent implements OnInit, OnDestroy {
   submit(formDirective: FormGroupDirective) {
     this.loading = true;
     this.store.dispatch(UserDataActions.UpdateUserData({id: this.uid.value, data: this.createPartialUserData()}));
-    let pictureUrl = '';
+    let resizedPictureUrl = '';
     this.imageService.saveReportImage(this.formGroup.get('picture').value)
       .pipe(
         take(1),
         switchMap(value => from(value.getDownloadURL())),
-        switchMap(picture => {
-          pictureUrl = picture;
-          return this.reportService.addReport(this.createReportDto(picture));
+        switchMap(downloadURL => {
+          resizedPictureUrl = downloadURL;
+          return this.reportService.addReport(this.createReportDto(resizedPictureUrl));
         }),
         switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('SENT', reportRef.id)),
-        switchMap(() => this.mailService.sendReportMail(this.createEmail(pictureUrl))),
+        switchMap(ref => this.mailService.sendReportMail(this.createEmail(resizedPictureUrl, ref.id))),
         catchError(err => {
           this.loading = false;
           return of({failed: true, err});
         })
       ).subscribe(result => {
-        if (result && result.failed) {
-          console.log(result.err);
-          this.snackBar.open('Er ging iets fout, probeer later nog eens', 'X', {
-            duration: 2000,
-          });
-        } else {
-          this.resetFormToDefault(formDirective);
-          this.snackBar.open('Verzonden!', 'X', {
-            duration: 2000,
-          });
-        }
+      if (result && result.failed) {
+        console.log(result.err);
+        this.snackBar.open('Er ging iets fout, probeer later nog eens', 'X', {
+          duration: 2000,
+        });
+      } else {
+        this.resetFormToDefault(formDirective);
+        this.snackBar.open('Verzonden!', 'X', {
+          duration: 2000,
+        });
+      }
     });
+  }
+
+  private addResizedExtension(name: string): string {
+    const extensionIndex = name.lastIndexOf('.');
+    return `${name.substring(0, extensionIndex)}_600x600${name.substring(extensionIndex)}`;
   }
 
   search($event: KeyboardEvent) {
@@ -192,14 +198,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createEmail(pictureUrl: string) {
+  private createEmail(pictureUrl: string, id: string) {
     return {
       to: environment.mailAddresses.toDefault,
       bcc: this.email.value,
       message: {
-        subject: 'Uw melding is gerapporteerd',
-        text: 'Dit is wat andere tekst.',
-        html: `<p>Uw melding is gerapporteerd</p><img src="${pictureUrl}"/>`
+        subject: `Uw melding is gerapporteerd: ${this.locationAddress.value}, met id: ${id}`,
+        html: createUserMail(id, pictureUrl, this.locationAddress.value, this.locationMapsUrl.value, this.firstName.value,
+          this.lastName.value, new Date(Date.now()), this.locationDescription.value, this.note.value)
       }
     };
   }
@@ -221,11 +227,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       take(1),
       filter(value => value.display_name.toLowerCase().indexOf('grimbergen') !== -1),
     ).subscribe(result => {
-        const formattedAddress = this.formatAddress(result.address);
-        this.locationAddress.setValue(formattedAddress);
-        this.locationCoords.setValue({lat: result.lat, long: result.lon});
-        this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`);
-      });
+      const formattedAddress = this.formatAddress(result.address);
+      this.locationAddress.setValue(formattedAddress);
+      this.locationCoords.setValue({lat: result.lat, long: result.lon});
+      this.locationMapsUrl.setValue(`${environment.nomatimApi}/search?q=${encodeURI(formattedAddress)}`);
+    });
   }
 
   get uid(): FormControl {
