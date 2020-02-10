@@ -288,22 +288,6 @@ export function createUserMail(id: string, imageUrl: string, locationAddress: st
                     </tr>
                     </tbody>
                   </table>
-                  <div align="center" class="img-container center autowidth"
-                       style="padding-right: 0px;padding-left: 0px;">
-                    <!--[if mso]>
-                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                      <tr style="line-height:0px">
-                        <td style="padding-right: 0px;padding-left: 0px;" align="center"><![endif]--><img align="center"
-                                                                                                          alt="Image"
-                                                                                                          border="0"
-                                                                                                          class="center autowidth"
-                                                                                                          src="images/ecommerce-template_order-shipped-icon.jpg"
-                                                                                                          style="text-decoration: none; -ms-interpolation-mode: bicubic; border: 0; height: auto; width: 100%; max-width: 44px; display: block;"
-                                                                                                          title="Image"
-                                                                                                          width="44"/>
-                    <!--[if mso]></td></tr></table><![endif]-->
-                  </div>
-                  <!--[if (!mso)&(!IE)]><!-->
                 </div>
                 <!--<![endif]-->
               </div>
