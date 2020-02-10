@@ -7,6 +7,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { RequestResetPasswordDialogComponent } from './request-reset-password-dialog/request-reset-password-dialog.component';
 import { MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlexModule } from '@angular/flex-layout';
 
 const authRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -22,7 +23,8 @@ const authRoutes: Routes = [
     MatDialogModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
+    FlexModule
   ],
   entryComponents: [ RequestResetPasswordDialogComponent ]
 })

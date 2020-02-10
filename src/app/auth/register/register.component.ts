@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  privacyPolicyUrl = 'https://www.privacypolicygenerator.info/live.php?token=LwqGaD5pdhkVEqPuWwkW8no0l69i07it';
 
   constructor(private router: Router) { }
 
