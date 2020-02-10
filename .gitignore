@@ -10,6 +10,7 @@
 /node_modules
 .env
 
+environment.acc.ts
 environment.prod.ts
 
 # profiling files

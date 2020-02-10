@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     AuthProvider.EmailAndPassword
   ];
   email: string;
+  privacyPolicyUrl = 'https://www.privacypolicygenerator.info/live.php?token=LwqGaD5pdhkVEqPuWwkW8no0l69i07it';
 
   constructor(private router: Router,
               private store: Store<fromRoot.State>,

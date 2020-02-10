@@ -9,11 +9,9 @@ import { Reference } from '@angular/fire/storage/interfaces';
 })
 export class ImageService {
   private reportImgStorage: AngularFireStorageReference;
-  private categoryImgStorage: AngularFireStorageReference;
 
   constructor(private storage: AngularFireStorage) {
     this.reportImgStorage = storage.ref(`${environment.storage.images}/${environment.storage.reports}`);
-    this.reportImgStorage = storage.ref(`${environment.storage.images}/${environment.storage.categories}`);
   }
 
   saveReportImage(image: File): Observable<Reference> {
@@ -22,5 +20,9 @@ export class ImageService {
         .put(image)
         .then(a => a.ref)
     );
+  }
+
+  getReportImage(id: string): Reference {
+    return this.reportImgStorage.child(id) as Reference;
   }
 }
