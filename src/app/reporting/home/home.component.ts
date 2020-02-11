@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   $categories: Observable<Category[]>;
   results$: Observable<Result[]>;
   loading = false;
+  private currentLocation: Coordinates;
 
   constructor(private store: Store<fromRoot.State>,
               private fb: FormBuilder,
@@ -194,7 +195,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
       locationDescription: this.locationDescription.value,
       note: this.note.value,
-      picture
+      picture,
+      locationTaken: this.currentLocation
     };
   }
 
@@ -218,6 +220,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private reverseSearch(position: Position) {
+    this.currentLocation = position.coords;
     this.nomatimService.reverse({
       lat: position.coords.latitude,
       lon: position.coords.longitude,

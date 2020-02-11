@@ -34,6 +34,7 @@ export interface ReportInputDto {
   locationDescription?: string;
   picture?: string;
   note?: string;
+  locationTaken: Coordinates;
 }
 
 export interface ReportDtoWithCurrentStatus extends ReportDto {
