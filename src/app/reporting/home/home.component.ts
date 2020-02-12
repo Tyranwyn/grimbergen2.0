@@ -205,7 +205,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       to: environment.mailAddresses.toDefault,
       bcc: this.email.value,
       message: {
-        subject: `Uw melding is gerapporteerd: ${this.locationAddress.value}, met id: ${id}`,
+        subject: `Uw melding is gerapporteerd: ${this.locationAddress.value}`,
         html: createUserMail(id, pictureUrl, this.locationAddress.value, this.locationMapsUrl.value, this.firstName.value,
           this.lastName.value, new Date(Date.now()), this.locationDescription.value, this.note.value)
       }

@@ -330,6 +330,9 @@ export function createUserMail(id: string, imageUrl: string, locationAddress: st
                         gerapporteerd.</p>
                         <p><a href="${imageUrl}">Als u de foto niet ziet klik hier</a></p>
                         <p><a href="${locationMaps}">Voor mapweergave, klik hier</a></p>
+                        <p>Locatiebeschrijving: ${locationDescription}</p>
+                        <p>Note: ${note}</p>
+                        <p>id: ${id}</p>
                     </div>
                   </div>
                   <div
