@@ -3,6 +3,22 @@ pipeline {
   tools {
     nodejs "node 12.16.0"
   }
+  triggers {
+    GenericTrigger(
+     genericVariables: [
+      [key: 'ref', value: '$.ref']
+     ],
+
+     causeString: 'Triggered on $ref',
+
+     token: master-webhook-token,
+
+     printContributedVariables: true,
+     printPostContent: true,
+
+     silentResponse: false,
+    )
+  }
   stages {
     stage('Configuration') {
       when {
