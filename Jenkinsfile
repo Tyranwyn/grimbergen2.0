@@ -3,14 +3,21 @@ pipeline {
   tools {
     nodejs "node 12.16.0"
   }
-  withCredentials([string(credentialsId: 'master-webhook-token', variable: 'token')]) {
-   properties([
-    pipelineTriggers([
-     [$class: 'GenericTrigger',
-      token: token,
-     ]
-    ])
-   ])
+  triggers {
+    genericTrigger(
+     genericVariables: [
+      [key: 'ref', value: '$.ref']
+     ],
+
+     causeString: 'Triggered on $ref',
+
+     token: credentials(master-webhook-token),
+
+     printContributedVariables: true,
+     printPostContent: true,
+
+     silentResponse: false,
+    )
   }
   stages {
     stage('Configuration') {
