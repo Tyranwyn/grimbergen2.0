@@ -1,22 +1,26 @@
 pipeline {
   agent any
-    stages {
-      stage('Install') {
-        steps {
-          echo 'Installing'
-          npm install
-        }
+  tools {
+    nodejs "node 12.16.0"
+  }
+  stages {
+    stage('Install') {
+      steps {
+        echo 'Installing'
+        sh 'npm install'
       }
-      stage('Build') {
-        steps {
-          echo 'building'
-          npm run build
-        }
+    }
+    stage('Build') {
+      steps {
+        echo 'building'
+        sh 'npm run build'
       }
-      stage('Deploy') {
-        steps {
-          echo "Deploying"
-          npm run deploy
-        }
+    }
+    stage('Deploy') {
+      steps {
+        echo 'Deploying'
+        sh 'npm run deploy'
       }
+    }
+  }
 }
