@@ -3,12 +3,12 @@ require('dotenv').config();
 
 const host = process.env.FTP_HOST;
 const port = process.env.FTP_PORT || 21;
-const user = process.env.FTP_USERNAME;
-const password = process.env.FTP_PASSWORD;
+const user = process.env.FTP_LOGIN_CREDS_USR;
+const password = process.env.FTP_LOGIN_CREDS_PSW;
 const secure = false;
 const override = false;
 const localDir = './dist/grimpunt';
-const remoteDir = process.env.FTP_BASE_DIR || '/';
+const remoteDir = process.env.FTP_BASE_DIR || '/test';
 
 if (!localDir) {
   throw new Error('Missing localDir.');
