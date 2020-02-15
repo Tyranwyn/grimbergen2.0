@@ -6,7 +6,7 @@
     "start": "ng serve --host 0.0.0.0",
     "start:prod": "ng build --prod && http-server -c-1 dist/grimpunt",
     "build": "ng build --prod",
-    "build:beta": "ng build",
+    "build:dev": "ng build",
     "deploy": "node ./ftp-upload.js",
     "test": "ng test",
     "lint": "ng lint",

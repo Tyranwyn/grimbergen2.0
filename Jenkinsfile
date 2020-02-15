@@ -41,23 +41,36 @@ pipeline {
         loadAngularEnvironment()
       }
     }
-//    stage('Install') {
-//      steps {
-//        echo 'Installing'
-//        sh 'npm install'
-//      }
-//    }
-//    stage('Build') {
-//      steps {
-//        echo 'building'
-//        sh 'npm run build'
-//      }
-//    }
-//    stage('Deploy') {
-//      steps {
-//        echo 'Deploying'
-//        sh 'npm run deploy'
-//      }
-//    }
+    stage('Install') {
+      steps {
+        echo 'Installing'
+        sh 'npm install'
+      }
+    }
+    stage('Build') {
+      steps {
+        echo 'building'
+        if (shouldDeployToEnvironment()) {
+          sh 'npm run build'
+        } else {
+          sh 'npm run build:dev'
+        }
+      }
+    }
+    stage('Deploy') {
+      when {
+        expression { return shouldDeployToEnvironment() }
+      }
+      steps {
+        echo 'Deploying'
+        sh 'npm run deploy'
+      }
+    }
+    stage('Cleanup') {
+      steps {
+        echo 'cleaning up workspace'
+        sh 'rm src/environments/environment.prod.ts'
+      }
+    }
   }
 }
