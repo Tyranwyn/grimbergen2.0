@@ -7,16 +7,16 @@ import * as fromRoot from '../../../reducers';
 import * as UserActions from '../../../auth/state/user/user.actions';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material';
-import {Role} from "../../../auth/user";
+import { Role } from '../../../auth/user';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+  styleUrls: [ './navigation.component.scss' ]
 })
 export class NavigationComponent {
 
-  @ViewChild('drawer', { static: false })
+  @ViewChild('drawer', {static: false})
   drawer: MatSidenav;
 
   isHandsetSubscription: Subscription;
@@ -28,6 +28,7 @@ export class NavigationComponent {
     );
   isHandset: boolean;
   currentRole$: Observable<Role>;
+  privacyPolicyUrl = 'https://www.privacypolicygenerator.info/live.php?token=LwqGaD5pdhkVEqPuWwkW8no0l69i07it';
 
   constructor(private breakpointObserver: BreakpointObserver,
               private store: Store<fromRoot.State>,
