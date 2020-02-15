@@ -25,15 +25,6 @@ def loadAngularEnvironment() {
   }
 }
 
-
-def build() {
-  if (shouldDeployToEnvironment()) {
-    sh 'npm run build'
-  } else {
-    sh 'npm run build:dev'
-  }
-}
-
 pipeline {
   agent any
   tools {
@@ -59,7 +50,13 @@ pipeline {
     stage('Build') {
       steps {
         echo 'building'
-        build()
+        script {
+          if (shouldDeployToEnvironment()) {
+            sh 'npm run build'
+          } else {
+            sh 'npm run build:dev'
+          }
+        }
       }
     }
     stage('Deploy') {
