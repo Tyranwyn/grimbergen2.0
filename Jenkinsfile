@@ -13,6 +13,18 @@ String getBaseDir() {
   return 'test'
 }
 
+def loadAngularEnvironment() {
+  if (env.BRANCH_NAME == 'develop') {
+    configFileProvider([configFile(fileId: '1252439b-8bc7-41bb-9960-4af19ab15768', targetLocation: 'src/environments/environment.prod.ts')]) {
+      echo 'Angular beta file loaded'
+    }
+  } else if (env.BRANCH_NAME == 'master') {
+    configFileProvider([configFile(fileId: '89ab382e-4ff2-48cd-9b75-f685a31b41de', targetLocation: 'src/environments/environment.prod.ts')]) {
+      echo 'Angular production file loaded'
+    }
+  }
+}
+
 pipeline {
   agent any
   tools {
@@ -26,20 +38,7 @@ pipeline {
   stages {
     stage('Configuration') {
       steps {
-        echo "${FTP_LOGIN_CREDS}"
-        echo "${FTP_BASE_DIR}"
-        when {
-         branch 'master'
-         configFileProvider([configFile(fileId: '89ab382e-4ff2-48cd-9b75-f685a31b41de', targetLocation: 'src/environments/environment.prod.ts')]) {
-           echo 'Angular production file loaded'
-         }
-        }
-        when {
-         branch 'develop'
-         configFileProvider([configFile(fileId: '1252439b-8bc7-41bb-9960-4af19ab15768', targetLocation: 'src/environments/environment.prod.ts')]) {
-           echo 'Angular beta file loaded'
-         }
-        }
+        loadAngularEnvironment()
       }
     }
 //    stage('Install') {
