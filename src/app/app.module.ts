@@ -20,6 +20,7 @@ import { UserDataEffects } from './auth/state/user-data/user-data.effects';
 import { CommonModule } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { InstallSheetModule } from './install-sheet/install-sheet.module';
+import { IonicModule } from '@ionic/angular';
 
 export function sanitizer(action) {
   return JSON.parse(stringify(action));
@@ -33,6 +34,7 @@ export function sanitizer(action) {
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    IonicModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig),
     AuthModule,

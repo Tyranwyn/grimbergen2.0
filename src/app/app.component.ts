@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 
 import { get, set } from 'idb-keyval';
 import { SwUpdate } from '@angular/service-worker';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { MatBottomSheet } from '@angular/material';
 import { InstallSheetComponent } from './install-sheet/install-sheet.component';
 import { take } from 'rxjs/operators';
@@ -24,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromRoot.State>,
               private afAuth: AngularFireAuth,
-              private toastController: ToastController,
               private swUpdate: SwUpdate,
               private alertController: AlertController,
               private bottomSheet: MatBottomSheet) {
@@ -68,14 +67,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.swUpdate.available.subscribe(async () => {
         const alert = await this.alertController.create({
           header: `App update!`,
-          message: `Newer version of the app is available. It's a quick refresh away!`,
+          message: `Er is een nieuwe versie van de applicatie beschikbaar! Klik 'Ok' om de app te herladen.`,
           buttons: [
             {
               text: 'Cancel',
               role: 'cancel',
               cssClass: 'secondary',
             }, {
-              text: 'Refresh',
+              text: 'Ok',
               handler: () => {
                 window.location.reload();
               },
