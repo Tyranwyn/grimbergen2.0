@@ -26,10 +26,8 @@ pipeline {
   stages {
     stage('Configuration') {
       steps {
-        step {
-          echo "${FTP_LOGIN_CREDS}"
-          echo "${FTP_BASE_DIR}"
-        }
+        echo "${FTP_LOGIN_CREDS}"
+        echo "${FTP_BASE_DIR}"
         when {
          branch 'master'
          configFileProvider([configFile(fileId: '89ab382e-4ff2-48cd-9b75-f685a31b41de', targetLocation: 'src/environments/environment.prod.ts')]) {
