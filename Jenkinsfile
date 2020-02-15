@@ -64,7 +64,7 @@ pipeline {
         expression { return shouldDeployToEnvironment() }
       }
       steps {
-        echo 'Deploying'
+        echo 'Deploying to folder ${FTP_BASE_DIR}'
         sh 'npm run deploy'
       }
     }
