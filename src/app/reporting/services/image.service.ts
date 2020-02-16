@@ -3,6 +3,16 @@ import { AngularFireStorage, AngularFireStorageReference } from '@angular/fire/s
 import { environment } from '../../../environments/environment';
 import { from, Observable } from 'rxjs';
 import { Reference } from '@angular/fire/storage/interfaces';
+import { readAndCompressImage } from 'browser-image-resizer';
+import { map, mergeMap } from 'rxjs/operators';
+
+const config = {
+  quality: 0.7,
+  maxWidth: 1000,
+  maxHeight: 1000,
+  autoRotate: true,
+  debug: false
+};
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +25,12 @@ export class ImageService {
   }
 
   saveReportImage(image: File): Observable<Reference> {
-    return from(
-      (this.reportImgStorage.child(`${Date.now().toString()}_${image.name}`) as Reference)
-        .put(image)
-        .then(a => a.ref)
-    );
+    return from(readAndCompressImage(image, config))
+      .pipe(
+        mergeMap((resizedImage: File) => (this.reportImgStorage.child(`${Date.now().toString()}_${image.name}`) as Reference)
+          .put(resizedImage)),
+        map(a => a.ref)
+      );
   }
 
   getReportImage(id: string): Reference {
