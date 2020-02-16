@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           resizedPictureUrl = downloadURL;
           return this.reportService.addReport(this.createReportDto(resizedPictureUrl));
         }),
-        switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('SENT', reportRef.id)),
+        switchMap(reportRef => this.statusUpdateService.saveStatusUpdate('NEW', reportRef.id)),
         switchMap(ref => this.mailService.sendReportMail(this.createEmail(resizedPictureUrl, ref.id))),
         catchError(err => {
           this.loading = false;
