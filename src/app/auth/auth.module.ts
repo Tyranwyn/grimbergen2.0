@@ -8,14 +8,17 @@ import { RequestResetPasswordDialogComponent } from './request-reset-password-di
 import { MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexModule } from '@angular/flex-layout';
+import { AuthComponent } from './auth.component';
 
-const authRoutes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-];
+const authRoutes: Routes = [ {
+  path: 'auth', component: AuthComponent, children: [
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent},
+  ]
+}];
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent, RequestResetPasswordDialogComponent ],
+  declarations: [ LoginComponent, RegisterComponent, RequestResetPasswordDialogComponent, AuthComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(authRoutes),

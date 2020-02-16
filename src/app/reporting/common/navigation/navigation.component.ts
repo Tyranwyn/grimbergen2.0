@@ -39,7 +39,7 @@ export class NavigationComponent {
 
   logout() {
     this.store.dispatch(UserActions.Logout());
-    this.router.navigateByUrl('login');
+    this.router.navigateByUrl('auth/login');
   }
 
   toggleDrawer() {

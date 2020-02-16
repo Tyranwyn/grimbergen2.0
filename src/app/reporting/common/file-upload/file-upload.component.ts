@@ -52,7 +52,7 @@ export class FileUploadComponent implements ControlValueAccessor {
     const reader = new FileReader();
     reader.readAsDataURL(this.file);
     reader.onload = ev => {
-      this.imagePreview = this.sanitizer.bypassSecurityTrustStyle(`url(${reader.result})`);;
+      this.imagePreview = this.sanitizer.bypassSecurityTrustStyle(`url(${reader.result})`);
     };
   }
 

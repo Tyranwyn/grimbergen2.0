@@ -8,7 +8,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ReportDetailComponent } from './report-detail/report-detail.component';
 import { AdminGuard } from './services/admin.guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo([ 'login' ]);
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo([ 'auth/login' ]);
 
 const reportingRoutes: Routes = [
   {
