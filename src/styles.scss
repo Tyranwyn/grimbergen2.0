@@ -29,3 +29,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .separator > span {
   z-index: 900 !important;
 }
+
+.mat-drawer-inner-container {
+  display: grid;
+  grid-template-rows: 60px auto 5em;
+  align-items: start;
+}
