@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
 import { Category } from '../models/category';
 import { environment } from '../../../environments/environment';
-import {from, Observable} from 'rxjs';
+import { from, Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class CategoryService {
   }
 
   updateCategory(category: Category): Observable<void> {
-    let afd = this.categoryCollection.doc<Category>(category.id);
+    const afd = this.categoryCollection.doc<Category>(category.id);
     delete category.id;
     return from(afd.update(category));
   }

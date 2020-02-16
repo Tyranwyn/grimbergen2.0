@@ -1,5 +1,5 @@
 export function createUserMail(id: string, imageUrl: string, locationAddress: string, locationMaps: string, firstName: string,
-                               lastName: string, date: Date, locationDescription: string, note: string): string {
+                               lastName: string, date: Date, locationDescription: string, note: string, category: string): string {
   return `
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -328,11 +328,12 @@ export function createUserMail(id: string, imageUrl: string, locationAddress: st
                         <span style="color: #000000; font-size: 14px;"><strong>Dag ${firstName} ${lastName},</strong></span>
                         <br/>Uw melding aan ${locationAddress} is op ${date.toLocaleString()}
                         gerapporteerd.</p>
+                        <p>id: ${id}</p>
                         <p><a href="${imageUrl}">Als u de foto niet ziet klik hier</a></p>
                         <p><a href="${locationMaps}">Voor mapweergave, klik hier</a></p>
                         <p>Locatiebeschrijving: ${locationDescription}</p>
                         <p>Note: ${note}</p>
-                        <p>id: ${id}</p>
+                        <p>Categorie: ${category}</p>
                     </div>
                   </div>
                   <div

@@ -9,7 +9,7 @@ import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
 import { ImageService } from '../services/image.service';
 import { ReportService } from '../services/report.service';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { ReportInputDto } from '../models/report';
 import { MailService } from '../services/mail.service';
 import { environment } from '../../../environments/environment';
@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   results$: Observable<Result[]>;
   loading = false;
   private currentLocation: Coordinates;
+  currentCategoryName: string;
 
   constructor(private store: Store<fromRoot.State>,
               private fb: FormBuilder,
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               private nomatimService: NomatimOSMService,
               private snackBar: MatSnackBar) {
     this.$categories = categoryService.getCategories();
+
   }
 
   ngOnInit() {
@@ -207,7 +209,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       message: {
         subject: `Uw melding is gerapporteerd: ${this.locationAddress.value}`,
         html: createUserMail(id, pictureUrl, this.locationAddress.value, this.locationMapsUrl.value, this.firstName.value,
-          this.lastName.value, new Date(Date.now()), this.locationDescription.value, this.note.value)
+          this.lastName.value, new Date(Date.now()), this.locationDescription.value, this.note.value, this.currentCategoryName)
       }
     };
   }
@@ -283,5 +285,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+  change() {
+    this.categoryService.getCategoryById(this.category.value)
+      .pipe(take(1))
+      .subscribe(cat => this.currentCategoryName = cat.name);
   }
 }
