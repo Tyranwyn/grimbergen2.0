@@ -1,0 +1,81 @@
+resources:
+  - name: master
+    type: git
+    icon: github-circle
+    source:
+      uri: https://github.com/Tyranwyn/grimbergen-app
+      branch: master
+  - name: develop
+    type: git
+    icon: github-circle
+    source:
+      uri: https://github.com/Tyranwyn/grimbergen-app
+      branch: develop
+
+jobs:
+  - name: beta-deploy
+    plan:
+      - get: develop
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: node, tag: "10" }
+          inputs:
+            - name: develop
+          params:
+            NG_CLI_ANALYTICS: ci
+            AWS_ACCESS_KEY_ID: ((aws-access-key-id))
+            AWS_SECRET_ACCESS_KEY: ((aws-secret-access-key))
+            FTP_BASE_DIR: beta.grimpunt.be
+            FTP_HOST: ((ftp-host))
+            FTP_USERNAME: ((ftp-username))
+            FTP_PASSWORD: ((ftp-password))
+
+          run:
+            path: /bin/sh
+            args:
+              - -c
+              - |
+                echo "Node Version: $(node --version)"
+                echo "NPM Version: $(npm --version)"
+                cd develop
+                echo "((beta-env))" > src/app/environments/environment.prod.ts
+                npm install
+                npm run build:dev
+                npm run deploy
+  - name: prod-deploy
+    plan:
+      - get: master
+        trigger: true
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: node, tag: "10" }
+          inputs:
+            - name: master
+          params:
+            NG_CLI_ANALYTICS: ci
+            AWS_ACCESS_KEY_ID: ((aws-access-key-id))
+            AWS_SECRET_ACCESS_KEY: ((aws-secret-access-key))
+            FTP_BASE_DIR: grimpunt.be
+            FTP_HOST: ((ftp-host))
+            FTP_USERNAME: ((ftp-username))
+            FTP_PASSWORD: ((ftp-password))
+
+          run:
+            path: /bin/sh
+            args:
+              - -c
+              - |
+                echo "Node Version: $(node --version)"
+                echo "NPM Version: $(npm --version)"
+                cd develop
+                echo "((production-env))" > src/app/environments/environment.prod.ts
+                npm install
+                npm run build
+                npm run deploy
