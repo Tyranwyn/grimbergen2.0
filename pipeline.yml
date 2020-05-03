@@ -22,7 +22,7 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: "8" }
+            source: { repository: node, tag: "10" }
           inputs:
             - name: develop
           params:
@@ -55,7 +55,7 @@ jobs:
           platform: linux
           image_resource:
             type: registry-image
-            source: { repository: node, tag: "8" }
+            source: { repository: node, tag: "10" }
           inputs:
             - name: master
           params:
