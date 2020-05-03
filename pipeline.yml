@@ -42,7 +42,7 @@ jobs:
                 echo "Node Version: $(node --version)"
                 echo "NPM Version: $(npm --version)"
                 cd develop
-                echo "((beta-env))" > src/app/environments/environment.prod.ts
+                echo "((beta-env))" > src/environments/environment.prod.ts
                 npm install
                 npm run build:dev
                 npm run deploy
@@ -75,7 +75,7 @@ jobs:
                 echo "Node Version: $(node --version)"
                 echo "NPM Version: $(npm --version)"
                 cd develop
-                echo "((production-env))" > src/app/environments/environment.prod.ts
+                echo "((production-env))" > src/environments/environment.prod.ts
                 npm install
                 npm run build
                 npm run deploy
