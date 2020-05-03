@@ -44,7 +44,7 @@ jobs:
                 cd develop
                 echo "((beta-env))" > src/environments/environment.prod.ts
                 npm install
-                npm run build:dev
+                npm run build
                 npm run deploy
   - name: prod-deploy
     plan:
