@@ -74,7 +74,7 @@ jobs:
               - |
                 echo "Node Version: $(node --version)"
                 echo "NPM Version: $(npm --version)"
-                cd develop
+                cd master
                 echo "((production-env))" > src/environments/environment.prod.ts
                 npm install
                 npm run build
