@@ -9,16 +9,17 @@ import { MatButtonModule, MatDialogModule, MatInputModule } from '@angular/mater
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexModule } from '@angular/flex-layout';
 import { AuthComponent } from './auth.component';
+import { OfflinePageComponent } from './offline-page/offline-page.component';
 
 const authRoutes: Routes = [ {
   path: 'auth', component: AuthComponent, children: [
-    {path: 'login', component: LoginComponent},
-    {path: 'register', component: RegisterComponent},
+    {path: 'login', component: OfflinePageComponent}
+    // {path: 'register', component: RegisterComponent},
   ]
 }];
 
 @NgModule({
-  declarations: [ LoginComponent, RegisterComponent, RequestResetPasswordDialogComponent, AuthComponent ],
+  declarations: [ LoginComponent, RegisterComponent, RequestResetPasswordDialogComponent, AuthComponent, OfflinePageComponent ],
   imports: [
     CommonModule,
     RouterModule.forChild(authRoutes),
